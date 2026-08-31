@@ -9,3 +9,11 @@ node_modules/
 cloudinary_python.txt
 kaggle.json
 .venv/
+
+# Downloaded archives
+*.zip
+
+# Large Berkeley Earth files not used by this project
+data/raw/v1/GlobalLandTemperaturesByCity.csv
+data/raw/v1/GlobalLandTemperaturesByMajorCity.csv
+data/raw/v1/GlobalLandTemperaturesByState.csv
