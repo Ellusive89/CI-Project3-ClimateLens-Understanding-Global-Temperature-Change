@@ -63,6 +63,8 @@ def build_global_anomaly_chart(global_annual):
     )
 
     figure.update_layout(
+        height=520,
+        autosize=True,
         xaxis_title="Year",
         yaxis_title="Temperature anomaly (°C)",
         template="plotly_white",

@@ -1,0 +1,34 @@
+"""Main entry point for the ClimateLens Streamlit dashboard."""
+
+import streamlit as st
+
+from src.ui import load_css
+
+
+st.set_page_config(
+    page_title="ClimateLens",
+    page_icon="🌍",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+load_css()
+
+pages = {
+    "ClimateLens": [
+        st.Page(
+            "views/overview.py",
+            title="Overview",
+            icon="🏠",
+            default=True,
+        ),
+    ],
+}
+
+navigation = st.navigation(
+    pages,
+    position="sidebar",
+    expanded=True,
+)
+
+navigation.run()
