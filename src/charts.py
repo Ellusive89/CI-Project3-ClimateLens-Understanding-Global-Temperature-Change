@@ -424,3 +424,71 @@ def build_country_change_bar_chart(ranking_data):
     )
 
     return figure
+
+
+def build_hypothesis_box_chart(
+    chart_data,
+    value_column,
+    y_axis_label,
+    period_order,
+    colour_map,
+    show_all_points=False,
+):
+    """Build a period-comparison box plot."""
+    figure = go.Figure()
+
+    point_setting = (
+        "all"
+        if show_all_points
+        else "outliers"
+    )
+
+    for period in period_order:
+        period_data = chart_data.loc[
+            chart_data["period"].eq(period),
+            value_column,
+        ]
+
+        figure.add_trace(
+            go.Box(
+                y=period_data,
+                name=period,
+                boxpoints=point_setting,
+                jitter=0.3,
+                pointpos=0,
+                fillcolor=colour_map[period],
+                line={
+                    "color": colour_map[period],
+                    "width": 2,
+                },
+                marker={
+                    "color": colour_map[period],
+                    "opacity": 0.65,
+                },
+                hovertemplate=(
+                    f"Period: {period}<br>"
+                    "Value: %{y:.3f} °C"
+                    "<extra></extra>"
+                ),
+            )
+        )
+
+    figure.update_layout(
+        height=520,
+        autosize=True,
+        xaxis_title="Comparison period",
+        yaxis_title=y_axis_label,
+        template="plotly_white",
+        showlegend=False,
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 30,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure

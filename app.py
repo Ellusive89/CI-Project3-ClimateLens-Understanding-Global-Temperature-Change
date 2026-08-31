@@ -33,6 +33,13 @@ pages = {
             icon="🌐",
         ),
     ],
+    "Evidence": [
+        st.Page(
+            "views/hypotheses.py",
+            title="Hypotheses",
+            icon="📋",
+        ),
+    ],
 }
 
 navigation = st.navigation(

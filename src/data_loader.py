@@ -39,8 +39,12 @@ def load_global_annual():
         dataframe,
         [
             "year",
+            "land_average_temperature_c",
+            "land_average_uncertainty_c",
             "land_ocean_average_temperature_c",
+            "land_ocean_average_uncertainty_c",
             "land_ocean_anomaly_c",
+            "land_months",
             "land_ocean_months",
         ],
         "Global annual summary",
