@@ -66,6 +66,11 @@ def load_country_annual():
         [
             "country",
             "year",
+            "average_temperature_c",
+            "average_uncertainty_c",
+            "months_observed",
+            "baseline_temperature_c",
+            "baseline_years",
             "temperature_anomaly_c",
         ],
         "Country annual summary",

@@ -83,6 +83,7 @@ def build_global_anomaly_chart(global_annual):
 
     return figure
 
+
 def build_global_temperature_chart(
     chart_data,
     value_column,
@@ -239,6 +240,182 @@ def build_global_uncertainty_chart(global_annual):
             "l": 20,
             "r": 20,
             "t": 50,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
+
+
+def build_country_comparison_chart(
+    chart_data,
+    rolling_window,
+):
+    """Build a multi-country temperature-anomaly chart."""
+    colours = [
+        "#4C78A8",
+        "#F58518",
+        "#54A24B",
+        "#E45756",
+        "#72B7B2",
+        "#B279A2",
+    ]
+
+    dash_styles = [
+        "solid",
+        "dash",
+        "dot",
+        "dashdot",
+        "longdash",
+        "longdashdot",
+    ]
+
+    figure = go.Figure()
+
+    countries = chart_data["country"].drop_duplicates()
+
+    for index, country in enumerate(countries):
+        country_data = chart_data.loc[
+            chart_data["country"].eq(country)
+        ].sort_values("year").copy()
+
+        if rolling_window > 1:
+            country_data["display_anomaly_c"] = (
+                country_data["temperature_anomaly_c"]
+                .rolling(
+                    window=rolling_window,
+                    min_periods=rolling_window,
+                )
+                .mean()
+            )
+
+            trace_name = (
+                f"{country}: "
+                f"{rolling_window}-year mean"
+            )
+
+        else:
+            country_data["display_anomaly_c"] = (
+                country_data["temperature_anomaly_c"]
+            )
+
+            trace_name = country
+
+        figure.add_trace(
+            go.Scatter(
+                x=country_data["year"],
+                y=country_data["display_anomaly_c"],
+                name=trace_name,
+                mode="lines",
+                connectgaps=False,
+                line={
+                    "color": colours[index % len(colours)],
+                    "dash": dash_styles[
+                        index % len(dash_styles)
+                    ],
+                    "width": 2.3,
+                },
+                hovertemplate=(
+                    f"Country/area: {country}<br>"
+                    "Year: %{x}<br>"
+                    "Anomaly: %{y:.2f} °C"
+                    "<extra></extra>"
+                ),
+            )
+        )
+
+    figure.add_hline(
+        y=0,
+        line_color="#5E6F73",
+        line_dash="dash",
+        annotation_text="Country-specific 1951–1980 baseline",
+    )
+
+    figure.update_layout(
+        height=540,
+        autosize=True,
+        xaxis_title="Year",
+        yaxis_title="Country-specific anomaly (°C)",
+        template="plotly_white",
+        hovermode="x unified",
+        legend={
+            "title": "Country/area",
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": 1.02,
+            "xanchor": "left",
+            "x": 0,
+        },
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 100,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
+
+
+def build_country_change_bar_chart(ranking_data):
+    """Build a horizontal chart of country-period changes."""
+    chart_data = ranking_data.sort_values(
+        "temperature_change_c",
+        ascending=True,
+    ).copy()
+
+    figure = go.Figure()
+
+    figure.add_trace(
+        go.Bar(
+            x=chart_data["temperature_change_c"],
+            y=chart_data["country"],
+            orientation="h",
+            marker={
+                "color": "#C45A28",
+            },
+            text=[
+                f"{value:+.2f} °C"
+                for value in chart_data[
+                    "temperature_change_c"
+                ]
+            ],
+            textposition="outside",
+            cliponaxis=False,
+            hovertemplate=(
+                "Country/area: %{y}<br>"
+                "1981–2010 minus 1951–1980: "
+                "%{x:.3f} °C"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.add_vline(
+        x=0,
+        line_color="#5E6F73",
+        line_dash="dash",
+    )
+
+    figure.update_layout(
+        height=max(520, len(chart_data) * 34),
+        autosize=True,
+        xaxis_title=(
+            "Difference between period averages (°C)"
+        ),
+        yaxis_title="Country/area",
+        template="plotly_white",
+        showlegend=False,
+        margin={
+            "l": 20,
+            "r": 90,
+            "t": 20,
             "b": 20,
         },
         font={
