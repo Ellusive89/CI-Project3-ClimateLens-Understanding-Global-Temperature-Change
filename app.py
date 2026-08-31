@@ -27,6 +27,11 @@ pages = {
             title="Global Trends",
             icon="📈",
         ),
+        st.Page(
+            "views/country_explorer.py",
+            title="Country Explorer",
+            icon="🌐",
+        ),
     ],
 }
 
