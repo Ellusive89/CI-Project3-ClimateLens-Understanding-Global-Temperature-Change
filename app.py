@@ -15,12 +15,17 @@ st.set_page_config(
 load_css()
 
 pages = {
-    "ClimateLens": [
+    "Explore": [
         st.Page(
             "views/overview.py",
             title="Overview",
             icon="🏠",
             default=True,
+        ),
+        st.Page(
+            "views/global_trends.py",
+            title="Global Trends",
+            icon="📈",
         ),
     ],
 }
