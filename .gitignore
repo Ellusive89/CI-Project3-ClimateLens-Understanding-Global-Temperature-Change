@@ -17,3 +17,6 @@ kaggle.json
 data/raw/v1/GlobalLandTemperaturesByCity.csv
 data/raw/v1/GlobalLandTemperaturesByMajorCity.csv
 data/raw/v1/GlobalLandTemperaturesByState.csv
+
+# macOS metadata
+.DS_Store
