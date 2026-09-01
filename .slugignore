@@ -1,2 +1,22 @@
-jupyter_notebooks/*
-README.md
+# Analysis notebooks are not required by the dashboard runtime.
+/jupyter_notebooks
+
+# Tests run locally rather than during the Heroku build.
+/tests
+/.pytest_cache
+
+# Project documentation is hosted by GitHub.
+/README.md
+/TESTING.md
+/requirements-dev.txt
+
+# Raw source data is preserved in Git but not loaded by the dashboard.
+/data/raw
+
+# Large processed monthly files are notebook outputs.
+# The dashboard uses the smaller annual summaries instead.
+/data/processed/v1/country_temperatures_clean.csv
+/data/processed/v1/global_temperatures_clean.csv
+
+# Cleaning metadata is not loaded by the dashboard.
+/data/processed/v1/cleaning_summary.csv
