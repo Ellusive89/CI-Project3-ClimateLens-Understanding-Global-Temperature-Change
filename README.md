@@ -33,6 +33,7 @@ presented as a current climate-monitoring system.
 - [Project Plan](#project-plan)
 - [Maintenance, Updates and Evaluation](#maintenance-updates-and-evaluation)
 - [Challenges and Project Retrospective](#challenges-and-project-retrospective)
+- [Testing](#testing)
 
 ## Project Purpose
 
@@ -1017,3 +1018,18 @@ The principal lessons were:
 11. Generative AI suggestions still require human verification and responsibility.
 12. A project plan should change when evidence shows that an original assumption was unsuitable.
 
+## Testing
+
+ClimateLens was tested using automated validation, manual functional checks, responsive-layout testing, accessibility review, browser-compatibility testing, and external-link testing.
+
+Local results include:
+
+- 19 automated tests passed;
+- 47 manual functional tests passed;
+- 10 responsive-layout tests passed;
+- 12 accessibility tests passed;
+- compatibility tests passed in Chrome, Safari, and Firefox;
+- all external-link tests passed;
+- all identified defects were corrected and retested.
+
+Detailed test cases, results, resolved defects, and known limitations are documented in [TESTING.md](TESTING.md).
