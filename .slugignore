@@ -9,6 +9,7 @@
 /README.md
 /TESTING.md
 /requirements-dev.txt
+/requirements-analysis.txt
 
 # Raw source data is preserved in Git but not loaded by the dashboard.
 /data/raw
