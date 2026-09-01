@@ -1,6 +1,7 @@
 # ClimateLens: Understanding Global Temperature Change
 
 [View the GitHub repository](https://github.com/Ellusive89/CI-Project3-ClimateLens-Understanding-Global-Temperature-Change)
+[View the live ClimateLens dashboard](https://climatelens-global-temperature-54cc5c60cb7b.herokuapp.com/)
 
 ClimateLens is an interactive Streamlit data dashboard that explores historical
 global and country-level temperature patterns, reported measurement
@@ -34,6 +35,7 @@ presented as a current climate-monitoring system.
 - [Maintenance, Updates and Evaluation](#maintenance-updates-and-evaluation)
 - [Challenges and Project Retrospective](#challenges-and-project-retrospective)
 - [Testing](#testing)
+- [Deployment](#deployment)
 
 ## Project Purpose
 
@@ -738,12 +740,12 @@ ClimateLens follows an iterative data-analysis lifecycle. The plan is reviewed a
 | 7. Predictive modelling | Engineer chronological features, train the model, create a benchmark, and evaluate performance | Model outputs and model card | Completed |
 | 8. Dashboard implementation | Build the Streamlit navigation, pages, charts, controls, downloads, and responsive styling | Functional multipage dashboard | Completed |
 | 9. Ethics and governance | Examine privacy, bias, licensing, social implications, AI use, and foreseeable risks | Ethics & Governance page | Completed |
-| 10. Documentation | Document the complete lifecycle, decisions, results, testing, deployment, and credits | Structured README | In progress |
-| 11. Verification | Test functions, pages, links, responsiveness, accessibility, and analytical consistency | Recorded test evidence | Planned |
-| 12. Deployment | Prepare deployment files, reduce unnecessary deployment assets, deploy, and perform post-deployment tests | Public dashboard | Planned |
-| 13. Maintenance and evaluation | Review dependencies, data currency, defects, user feedback, and continued fitness for purpose | Maintenance and evaluation record | Planned |
+| 10. Documentation | Document the complete lifecycle, decisions, results, testing, deployment, and credits | Structured README | Completed |
+| 11. Verification | Test functions, pages, links, responsiveness, accessibility, and analytical consistency | Recorded test evidence | Completed |
+| 12. Deployment | Prepare deployment files, reduce unnecessary deployment assets, deploy, and perform post-deployment tests | Public dashboard | Completed |
+| 13. Maintenance and evaluation | Review dependencies, data currency, defects, user feedback, and continued fitness for purpose | Maintenance and evaluation record | Ongoing |
 
-The status column must be updated as the remaining work is completed.
+The implementation, documentation, verification, and deployment phases are complete. Maintenance and periodic evaluation remain ongoing activities.
 
 ### Implementation priorities
 
@@ -1032,4 +1034,51 @@ Local results include:
 - all external-link tests passed;
 - all identified defects were corrected and retested.
 
+Post-deployment verification confirmed that:
+
+- all six public routes load successfully;
+- all expected Plotly charts render;
+- model metrics match the saved analytical results;
+- no Streamlit exceptions or browser-console errors appear;
+- representative mobile-width pages have no horizontal overflow;
+- historical-data limitations remain visible.
+
+The deployed tests were completed on 2 September 2026.
+
 Detailed test cases, results, resolved defects, and known limitations are documented in [TESTING.md](TESTING.md).
+
+## Deployment
+
+ClimateLens is deployed on Heroku:
+
+[View the live ClimateLens dashboard](https://climatelens-global-temperature-54cc5c60cb7b.herokuapp.com/)
+
+### Deployment method
+
+The application was deployed from the GitHub `main` branch using Heroku's GitHub integration.
+
+The deployment process was:
+
+1. Create a Heroku application in the Europe region.
+2. Configure the Python buildpack.
+3. Connect the Heroku application to the GitHub repository.
+4. Select the `main` branch.
+5. Perform a manual deployment.
+6. Review the build output.
+7. Open and test the public application.
+
+### Deployment configuration
+
+| File | Purpose |
+|---|---|
+| `.python-version` | Requests the latest supported Python 3.12 patch release |
+| `requirements.txt` | Contains production-only Python dependencies |
+| `Procfile` | Starts Streamlit using Heroku's assigned `$PORT` |
+| `.streamlit/config.toml` | Defines theme, headless mode, and telemetry preference |
+| `.slugignore` | Excludes notebooks, tests, documentation, raw data, and large monthly analytical files from the deployment slug |
+
+The production command is:
+
+```text
+streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
+```

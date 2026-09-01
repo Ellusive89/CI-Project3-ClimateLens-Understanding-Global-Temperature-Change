@@ -239,17 +239,39 @@ The application uses a historical dataset. Global observations end in December 2
 
 This is an intentional project limitation rather than a software defect. It is communicated throughout the dashboard.
 
+## Post-Deployment Testing
+
+The deployed application was tested on 2 September 2026.
+
+**Live application:** [ClimateLens](https://climatelens-global-temperature-54cc5c60cb7b.herokuapp.com/)
+
+| ID | Test | Expected result | Result |
+|---|---|---|---|
+| PD-01 | Open the root application URL | Overview loads successfully over HTTPS | Pass |
+| PD-02 | Inspect deployed navigation | All six pages appear in the correct navigation groups | Pass |
+| PD-03 | Open all six public routes | Every route loads without a Streamlit exception | Pass |
+| PD-04 | Inspect deployed charts | Overview displays 1 chart, Global Trends 2, Country Explorer 2, Hypotheses 2, and Model Performance 5 | Pass |
+| PD-05 | Inspect deployed model metrics | MAE is 0.089 °C, RMSE is 0.114 °C, R² is 0.9916, and MAE improvement is 33.0% | Pass |
+| PD-06 | Inspect the browser console | No browser-console errors are reported | Pass |
+| PD-07 | Test representative pages at 390 × 844 | Overview, Country Explorer, and Model Performance show no horizontal page overflow | Pass |
+| PD-08 | Inspect historical-data notices | Global end date of December 2015 and country-summary end date of 2012 are visible | Pass |
+
+The initial Model Performance route required normal chart-rendering time after page load. Once rendering completed, all five expected Plotly charts were present.
+
+No deployment-specific functional defects were identified.
+
 ## Testing Conclusion
 
-At this stage:
+Testing produced the following results:
 
-- all 19 automated tests pass;
-- all 47 local functional tests pass;
+- all 19 automated tests passed;
+- all 47 local functional tests passed;
 - all 10 responsive-layout tests passed;
 - all 12 manual accessibility tests passed;
 - Chrome, Safari, and Firefox compatibility tests passed;
 - all five external-link tests passed;
+- all eight post-deployment checks passed;
 - all identified defects were corrected and successfully retested;
-- no unresolved local functional defects were identified.
+- no unresolved local or deployment-specific functional defects were identified.
 
 Two non-failing third-party compatibility warnings remain documented for future dependency review.
