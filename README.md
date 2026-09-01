@@ -27,6 +27,8 @@ presented as a current climate-monitoring system.
 - [Data Quality and Cleaning](#data-quality-and-cleaning)
 - [Project Hypotheses](#project-hypotheses)
 - [Predictive Model](#predictive-model)
+- [Dashboard Design](#dashboard-design)
+- [Rationale for Visualisations](#rationale-for-visualisations)
 
 ## Project Purpose
 
@@ -403,3 +405,105 @@ The high R² is partly explained by strong seasonal variation. MAE, RMSE, residu
 - It does not model physical climate processes.
 - Its coefficients describe predictive associations, not causation.
 - It must not be used for professional or safety-critical decisions.
+
+## Dashboard Design
+
+ClimateLens uses a multipage Streamlit interface so users can move progressively from a general overview to detailed analysis.
+
+### Information architecture
+
+| Dashboard page | Purpose |
+|---|---|
+| Overview | Introduces the project, its historical-data limitations, principal metrics, key terminology, and responsible-use notice |
+| Global Trends | Explores global temperature and measurement-uncertainty patterns over a user-selected period |
+| Country Explorer | Compares country-specific temperature anomalies and equal-length historical periods |
+| Hypotheses | Presents the two project hypotheses, statistical results, visual evidence, and plain-language conclusions |
+| Model Performance | Compares the historical prediction model with a seasonal-naive benchmark and provides technical diagnostics |
+| Ethics & Governance | Documents privacy, licensing, bias, social implications, governance controls, maintenance, and project risks |
+
+### Information hierarchy
+
+Each page follows a consistent structure:
+
+1. A page title and short explanation establish its purpose.
+2. Controls allow users to select relevant data.
+3. Summary metrics communicate the principal results.
+4. Visualisations provide supporting evidence.
+5. Captions and explanatory text clarify interpretation.
+6. Limitations and responsible-use notices reduce the risk of misleading conclusions.
+7. Detailed tables and downloads are placed later on the page for users who require further information.
+
+This structure supports both non-technical users seeking concise findings and technical users who want supporting measurements and diagnostics.
+
+### User control and feedback
+
+The dashboard provides:
+
+- sidebar navigation between pages;
+- year-range and measurement selectors;
+- country and area selectors;
+- rolling-average controls;
+- ranking-direction and ranking-size controls;
+- model-series and test-period controls;
+- expandable explanations for technical terminology;
+- tabs for model diagnostics;
+- downloadable filtered data and analytical results;
+- informational, warning, and success messages that provide feedback and clarify limitations.
+
+The dashboard does not use automatic pop-ups, audio, video, or interactions that remove user control.
+
+### Consistency
+
+Consistent colours, typography, spacing, metric cards, chart layouts, captions, and explanatory notices are used across the application.
+
+Temperature series use a consistent visual language, while contrasting colours distinguish rolling averages, benchmarks, comparison periods, and uncertainty measurements.
+
+All pages use the same wide layout and shared styling. Reusable chart, data-loading, and interface functions reduce unnecessary duplication in the code.
+
+### Accessibility and responsive design
+
+Accessibility decisions include:
+
+- descriptive page headings and subheadings;
+- plain-language explanations alongside technical results;
+- meaningful chart titles, axis titles, legends, captions, and hover information;
+- colours selected for adequate contrast against the dashboard background;
+- information communicated through labels and values rather than colour alone;
+- controls with visible text labels and help text;
+- Celsius units displayed with temperature measurements;
+- signed anomaly values that distinguish positive and negative results;
+- expandable sections that reduce cognitive load;
+- charts sized to their containers;
+- Streamlit columns that reorganise when the available screen width is reduced.
+
+The dashboard should still be manually tested at desktop, tablet, and mobile-width layouts before deployment.
+
+## Rationale for Visualisations
+
+The dashboard contains several different plot types. Each was selected according to the analytical question rather than for decoration.
+
+| Visualisation | Location | Analytical purpose |
+|---|---|---|
+| Metric cards | Multiple pages | Communicate important values quickly, including anomalies, uncertainty, effect sizes, and model errors |
+| Time-series line chart | Overview and Global Trends | Shows how temperature measurements and anomalies change chronologically |
+| Rolling-mean line | Overview, Global Trends, and Country Explorer | Reduces short-term variation so the longer-term pattern is easier to interpret |
+| Uncertainty line chart | Global Trends | Shows how reported measurement uncertainty changes through time |
+| Multi-series anomaly line chart | Country Explorer | Allows selected countries or areas to be compared relative to their own 1951–1980 baselines |
+| Horizontal bar chart | Country Explorer | Ranks equal-period historical temperature differences while keeping geographical labels readable |
+| Box plots | Hypotheses | Compare distributions, medians, spread, and outliers between hypothesis groups |
+| Observed-versus-predicted line chart | Model Performance | Shows how closely model and benchmark predictions follow held-out observations through time |
+| Grouped bar chart | Model Performance | Compares model MAE and RMSE directly with the seasonal-naive benchmark |
+| Residual histogram | Model Performance | Shows the distribution of prediction errors and whether residuals are centred near zero |
+| Cross-validation bar chart | Model Performance | Compares prediction error across chronological validation folds |
+| Coefficient bar chart | Model Performance | Shows the direction and relative magnitude of standardised predictive associations |
+
+### Relationship to the business requirements
+
+- Global time-series charts address **BR1** by explaining historical global temperature patterns.
+- Uncertainty charts and comparison plots address **BR2** by communicating measurement reliability.
+- Country anomaly lines and period-comparison bars address **BR3** by enabling geographical exploration.
+- Box plots and statistical summaries address **BR4** by validating the project hypotheses.
+- Prediction, benchmark, residual, validation, and coefficient charts address **BR5** by evaluating the historical predictive model.
+- Captions, warnings, model limitations, and governance content address **BR6** by supporting responsible interpretation.
+
+The dashboard therefore exceeds the requirement to display at least two different plot types. It uses line charts, bar charts, box plots, and a histogram, with each visual connected to a stated business requirement.
