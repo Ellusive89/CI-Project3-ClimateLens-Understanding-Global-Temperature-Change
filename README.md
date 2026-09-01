@@ -32,6 +32,7 @@ presented as a current climate-monitoring system.
 - [Ethics, Privacy and Governance](#ethics-privacy-and-governance)
 - [Project Plan](#project-plan)
 - [Maintenance, Updates and Evaluation](#maintenance-updates-and-evaluation)
+- [Challenges and Project Retrospective](#challenges-and-project-retrospective)
 
 ## Project Purpose
 
@@ -900,3 +901,119 @@ Before releasing an update:
 - tag or otherwise identify the tested release.
 
 If an update introduces a serious defect, the application should return to the last verified Git revision while the issue is investigated. Data versions should be retained rather than overwritten, making analytical rollback possible.
+
+## Challenges and Project Retrospective
+
+This retrospective records practical challenges encountered during the project, the decisions made in response, and lessons that should influence future development.
+
+### Practical challenges
+
+| Challenge | Effect on the project | Response | Lesson learned |
+|---|---|---|---|
+| Selecting a dataset with sufficient historical and geographical coverage | Several possible environmental datasets could meet the broad project theme | The Berkeley Earth Kaggle dataset was selected because it supported global trends, country comparisons, uncertainty analysis, hypotheses, and predictive modelling | Dataset selection should be driven by business requirements rather than popularity alone |
+| Understanding the dataset licence | Kaggle and Berkeley Earth displayed related but not identical Creative Commons licence descriptions | The more specific CC BY-NC-SA 4.0 licence shown with the downloaded Kaggle snapshot was documented and followed | Licensing should be investigated before analysis and deployment, not added as an afterthought |
+| Large country dataset | The raw country file contains 577,462 rows and increases processing and deployment size | Reusable processed annual summaries were created so the dashboard does not repeat expensive transformations | Analytical dashboards should load purpose-built data rather than reproduce notebook cleaning on every run |
+| Structured historical missingness | Some temperature fields were unavailable for complete historical periods | Missing values were investigated by column and period instead of being automatically filled | Missing data can contain information about measurement history and should not be treated only as a technical inconvenience |
+| Antarctica contained no usable temperature values | The label appeared in the source but could not contribute to the country analysis | Its 764 unusable records were excluded, with the reason documented | Exclusions must be evidence-based, reproducible, and visible |
+| Country data ended during September 2013 | Including 2013 would create an unfair annual comparison with complete years | Complete country-year summaries were limited to 2012 | Temporal completeness must be checked before aggregating monthly observations |
+| Comparing countries with different climates | Absolute temperature rankings would mainly reflect geographical climate differences | Country-specific anomalies were calculated relative to each label's own 1951–1980 mean | Normalisation and reference periods should reflect the analytical question |
+| Risk of time-series leakage | Random train/test splitting would allow later observations to influence evaluation of earlier periods | Chronological training and testing, past-only features, and expanding-window validation were used | Time order is part of the data and must be preserved during modelling |
+| Interpreting high model R² | Strong seasonal patterns produced a very high R² that could be overstated | MAE, RMSE, residuals, cross-validation, and a seasonal-naive benchmark were also reported | A model metric has meaning only when interpreted with suitable context and comparison |
+| Distinguishing prediction from climate projection | Users could interpret the prototype as a professional future climate model | A model card, historical-data notices, intended-use statements, and repeated limitations were added | Responsible model communication is part of implementation rather than optional documentation |
+| Communicating statistical hypothesis results | P-values and effect sizes may be inaccessible to non-technical users | Technical outputs were paired with metric cards, box plots, plain-language conclusions, and limitations | Presenting evidence requires both statistical precision and audience-appropriate explanation |
+| Notebook Plotly rendering failed | `figure.show()` raised an error because the notebook renderer required `nbformat` | `nbformat==5.10.4` was added to the project dependencies and the environment was restarted | Reproducibility depends on documenting rendering and notebook dependencies as well as analytical packages |
+| Scientific-analysis dependencies needed to be reproducible | Statistical functions relied on packages that must also be present in a fresh environment | Compatible scientific packages, including SciPy, were added to the pinned requirements | A working local environment is not sufficient unless its dependencies can be reproduced elsewhere |
+| Charts overlapped following layout changes | Chart content, headings, and following sections appeared on top of one another | Explicit Plotly chart heights and shared Streamlit spacing rules were introduced | Responsive behaviour must be visually tested instead of assumed |
+| External links displayed as raw HTML | Some source-link markup appeared as text in the dashboard | Link strings were corrected and configured to open safely in a separate tab | Small presentation defects can undermine confidence in an otherwise professional interface |
+| Multipage navigation needed to remain clear | A large single page would make different analytical questions difficult to find | Six focused pages were registered through a central Streamlit navigation structure | Information architecture should reflect user tasks rather than code structure |
+| Balancing technical and non-technical content | Too much detail could overwhelm general users, while too little would weaken analytical transparency | Summary cards and narratives appear first, with tables, diagnostics, and downloads available later | Progressive disclosure can serve audiences with different levels of technical knowledge |
+| Repeating limitations without overwhelming users | A single disclaimer could easily be missed, but excessive warnings could interrupt the data story | Short, relevant limitations were placed close to affected outputs, with full detail on the governance page | Responsible communication works best when caveats are contextual |
+| Repository and deployment size | Raw and cleaned monthly files are relatively large | File-size and deployment exclusions were identified as a required pre-deployment review | Development assets and runtime assets should be separated before deployment |
+
+### What worked well
+
+The following approaches were effective:
+
+- defining business requirements before building the dashboard;
+- separating raw, processed, analytical, and model outputs;
+- preserving raw Version 1 data without modification;
+- using notebooks to create a visible analytical workflow;
+- verifying exported files after saving them;
+- using complete-year filters for fair annual comparisons;
+- using anomalies instead of misleading absolute country rankings;
+- comparing the predictive model with a simple benchmark;
+- organising application code into reusable data, chart, and UI modules;
+- separating the dashboard into purpose-specific pages;
+- placing plain-language narratives alongside technical measurements;
+- documenting uncertainty, privacy, bias, licensing, social implications, and model limitations;
+- using focused Git commits to make the development process understandable.
+
+### Constraints and trade-offs
+
+#### Historical data currency
+
+The selected dataset provides valuable long-term coverage but is not current. Global observations end in December 2015, while complete country summaries end in 2012.
+
+A newer source could improve currency, but changing datasets during development would alter the methodology, baselines, hypotheses, and model outputs. The project therefore retains the documented Version 1 snapshot and communicates its historical scope clearly.
+
+#### Scope control
+
+The Kaggle dataset also contains city, state, and major-city files. Including every file could create more visualisations but would increase cleaning, validation, interface, and governance work without directly supporting the selected requirements.
+
+The project prioritised depth and clarity in the global and country analyses.
+
+#### Statistical simplicity
+
+Welch tests provide an understandable comparison of group means, but they do not represent the complete time-dependent process. More advanced approaches could model autocorrelation and structural changes more directly.
+
+The selected tests were retained because they are transparent and appropriate for an educational prototype when their limitations are documented.
+
+#### Model simplicity
+
+Linear regression is interpretable and provides a useful historical prototype. It cannot reproduce the scientific capabilities of physical climate models and is not designed for long-range recursive forecasting.
+
+A more complex model could improve some prediction metrics while reducing interpretability and increasing the risk of presenting the result as more authoritative than the data supports.
+
+#### Geographical interpretation
+
+The source uses country and area labels accumulated across a long historical period. These labels may include territories, historical names, duplicated geographical concepts, or boundaries that changed over time.
+
+The dashboard therefore refers to 242 country or area labels rather than claiming that they represent 242 current sovereign states.
+
+### What could be improved
+
+Given additional time and suitable data, the project could be improved by:
+
+- incorporating a more current authoritative temperature dataset;
+- harmonising historical geographical labels;
+- adding geographical coordinates and a carefully designed map;
+- analysing regional and seasonal differences;
+- adding emissions, vulnerability, or socioeconomic data without implying unsupported causation;
+- applying time-series methods that explicitly model autocorrelation;
+- evaluating additional interpretable model types;
+- automating more data and interface tests;
+- adding formal accessibility testing;
+- conducting structured usability sessions with technical and non-technical users;
+- obtaining review from a climate-data or environmental-domain expert;
+- monitoring application performance after deployment;
+- creating a documented Version 2 update rather than replacing Version 1.
+
+### Lessons learned
+
+This project demonstrated that successful data communication requires more than calculating correct values.
+
+The principal lessons were:
+
+1. Business requirements should guide dataset selection and visualisation.
+2. Data cleaning decisions must be justified rather than hidden.
+3. Missingness, uncertainty, and historical coverage are part of the analytical story.
+4. Time-series evaluation must preserve chronology.
+5. Model performance should always be compared with an appropriate benchmark.
+6. Statistical significance should not be presented as causal proof.
+7. Technical and non-technical audiences require different levels of detail.
+8. Ethical, legal, and social considerations influence design and implementation.
+9. Responsive and accessible behaviour requires practical testing.
+10. Documentation and commit history are part of the finished product.
+11. Generative AI suggestions still require human verification and responsibility.
+12. A project plan should change when evidence shows that an original assumption was unsuitable.
+
