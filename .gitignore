@@ -9,6 +9,7 @@ node_modules/
 cloudinary_python.txt
 kaggle.json
 .venv/
+.pytest_cache/
 
 # Downloaded archives
 *.zip
