@@ -131,3 +131,85 @@ def load_model_metrics():
     )
 
     return dataframe
+
+
+@st.cache_data(show_spinner=False)
+def load_model_predictions():
+    """Load held-out historical model predictions."""
+    file_path = DATA_FOLDER / "model_test_predictions.csv"
+
+    if not file_path.exists():
+        raise FileNotFoundError(
+            f"Required file was not found: {file_path}"
+        )
+
+    dataframe = pd.read_csv(
+        file_path,
+        parse_dates=["date"],
+    )
+
+    _validate_columns(
+        dataframe,
+        [
+            "date",
+            "actual_temperature_c",
+            "predicted_temperature_c",
+            "seasonal_naive_temperature_c",
+            "residual_c",
+            "absolute_error_c",
+        ],
+        "Model test predictions",
+    )
+
+    return dataframe
+
+
+@st.cache_data(show_spinner=False)
+def load_model_cross_validation():
+    """Load time-series cross-validation results."""
+    file_path = DATA_FOLDER / "model_cross_validation.csv"
+
+    if not file_path.exists():
+        raise FileNotFoundError(
+            f"Required file was not found: {file_path}"
+        )
+
+    dataframe = pd.read_csv(file_path)
+
+    _validate_columns(
+        dataframe,
+        [
+            "fold",
+            "mae_c",
+            "rmse_c",
+            "r2",
+        ],
+        "Model cross-validation results",
+    )
+
+    return dataframe
+
+
+@st.cache_data(show_spinner=False)
+def load_model_coefficients():
+    """Load standardised linear-model coefficients."""
+    file_path = DATA_FOLDER / "model_coefficients.csv"
+
+    if not file_path.exists():
+        raise FileNotFoundError(
+            f"Required file was not found: {file_path}"
+        )
+
+    dataframe = pd.read_csv(file_path)
+
+    _validate_columns(
+        dataframe,
+        [
+            "feature",
+            "standardised_coefficient",
+            "absolute_coefficient",
+        ],
+        "Model coefficients",
+    )
+
+    return dataframe

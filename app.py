@@ -39,6 +39,11 @@ pages = {
             title="Hypotheses",
             icon="📋",
         ),
+        st.Page(
+            "views/model_performance.py",
+            title="Model Performance",
+            icon="🤖",
+        ),
     ],
 }
 

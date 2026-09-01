@@ -492,3 +492,339 @@ def build_hypothesis_box_chart(
     )
 
     return figure
+
+
+def build_model_prediction_chart(
+    prediction_data,
+    selected_series,
+):
+    """Build observed, modelled, and baseline temperature lines."""
+    series_settings = {
+        "Observed": {
+            "column": "actual_temperature_c",
+            "colour": "#172D35",
+            "dash": "solid",
+            "width": 2.7,
+        },
+        "Linear regression": {
+            "column": "predicted_temperature_c",
+            "colour": "#C45A28",
+            "dash": "solid",
+            "width": 2.2,
+        },
+        "Seasonal-naive baseline": {
+            "column": "seasonal_naive_temperature_c",
+            "colour": "#4C78A8",
+            "dash": "dot",
+            "width": 1.8,
+        },
+    }
+
+    data = prediction_data.sort_values("date")
+    figure = go.Figure()
+
+    for series_name in selected_series:
+        settings = series_settings[series_name]
+
+        figure.add_trace(
+            go.Scatter(
+                x=data["date"],
+                y=data[settings["column"]],
+                name=series_name,
+                mode="lines",
+                line={
+                    "color": settings["colour"],
+                    "dash": settings["dash"],
+                    "width": settings["width"],
+                },
+                hovertemplate=(
+                    "Date: %{x|%B %Y}<br>"
+                    "Temperature: %{y:.3f} °C"
+                    "<extra></extra>"
+                ),
+            )
+        )
+
+    figure.update_layout(
+        height=520,
+        autosize=True,
+        xaxis_title="Date",
+        yaxis_title="Monthly temperature (°C)",
+        template="plotly_white",
+        hovermode="x unified",
+        legend={
+            "title": "Series",
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": 1.02,
+            "xanchor": "left",
+            "x": 0,
+        },
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 60,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
+
+
+def build_model_metric_chart(model_metrics):
+    """Build a grouped MAE and RMSE comparison chart."""
+    figure = go.Figure()
+
+    figure.add_trace(
+        go.Bar(
+            x=model_metrics["model"],
+            y=model_metrics["mae_c"],
+            name="MAE",
+            marker_color="#4C78A8",
+            text=[
+                f"{value:.3f}"
+                for value in model_metrics["mae_c"]
+            ],
+            textposition="outside",
+            hovertemplate=(
+                "Model: %{x}<br>"
+                "MAE: %{y:.4f} °C"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.add_trace(
+        go.Bar(
+            x=model_metrics["model"],
+            y=model_metrics["rmse_c"],
+            name="RMSE",
+            marker_color="#C45A28",
+            text=[
+                f"{value:.3f}"
+                for value in model_metrics["rmse_c"]
+            ],
+            textposition="outside",
+            hovertemplate=(
+                "Model: %{x}<br>"
+                "RMSE: %{y:.4f} °C"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.update_layout(
+        height=520,
+        autosize=True,
+        xaxis_title="Model",
+        yaxis_title="Error (°C, lower is better)",
+        barmode="group",
+        template="plotly_white",
+        legend={
+            "title": "Metric",
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": 1.02,
+            "xanchor": "left",
+            "x": 0,
+        },
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 60,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
+
+
+def build_residual_histogram(prediction_data):
+    """Build a distribution chart for model residuals."""
+    figure = go.Figure()
+
+    figure.add_trace(
+        go.Histogram(
+            x=prediction_data["residual_c"],
+            nbinsx=20,
+            marker_color="#6F4E7C",
+            hovertemplate=(
+                "Residual range: %{x}<br>"
+                "Months: %{y}"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.add_vline(
+        x=0,
+        line_color="#C45A28",
+        line_dash="dash",
+        annotation_text="Zero error",
+    )
+
+    figure.update_layout(
+        height=520,
+        autosize=True,
+        xaxis_title=(
+            "Residual: observed minus predicted (°C)"
+        ),
+        yaxis_title="Number of months",
+        template="plotly_white",
+        showlegend=False,
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 40,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
+
+
+def build_cross_validation_chart(cross_validation):
+    """Build cross-validation error bars by chronological fold."""
+    figure = go.Figure()
+
+    figure.add_trace(
+        go.Bar(
+            x=cross_validation["fold"],
+            y=cross_validation["mae_c"],
+            name="MAE",
+            marker_color="#4C78A8",
+            hovertemplate=(
+                "Fold: %{x}<br>"
+                "MAE: %{y:.4f} °C"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.add_trace(
+        go.Bar(
+            x=cross_validation["fold"],
+            y=cross_validation["rmse_c"],
+            name="RMSE",
+            marker_color="#C45A28",
+            hovertemplate=(
+                "Fold: %{x}<br>"
+                "RMSE: %{y:.4f} °C"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.update_layout(
+        height=520,
+        autosize=True,
+        xaxis_title="Chronological validation fold",
+        yaxis_title="Error (°C, lower is better)",
+        barmode="group",
+        template="plotly_white",
+        legend={
+            "title": "Metric",
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": 1.02,
+            "xanchor": "left",
+            "x": 0,
+        },
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 60,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
+
+
+def build_coefficient_chart(model_coefficients):
+    """Build a signed standardised-coefficient chart."""
+    feature_labels = {
+        "time_index": "Chronological time index",
+        "month_sin": "Month sine component",
+        "month_cos": "Month cosine component",
+        "lag_1_temperature_c": "Previous-month temperature",
+        "lag_12_temperature_c": "Same month one year earlier",
+        "rolling_12_temperature_c": "Previous 12-month mean",
+        "rolling_120_temperature_c": "Previous 120-month mean",
+    }
+
+    chart_data = model_coefficients.copy()
+
+    chart_data["feature_label"] = (
+        chart_data["feature"]
+        .map(feature_labels)
+        .fillna(chart_data["feature"])
+    )
+
+    chart_data = chart_data.sort_values(
+        "standardised_coefficient",
+        ascending=True,
+    )
+
+    bar_colours = [
+        "#C45A28"
+        if value >= 0
+        else "#4C78A8"
+        for value in chart_data[
+            "standardised_coefficient"
+        ]
+    ]
+
+    figure = go.Figure()
+
+    figure.add_trace(
+        go.Bar(
+            x=chart_data["standardised_coefficient"],
+            y=chart_data["feature_label"],
+            orientation="h",
+            marker_color=bar_colours,
+            hovertemplate=(
+                "Feature: %{y}<br>"
+                "Standardised coefficient: %{x:.4f}"
+                "<extra></extra>"
+            ),
+        )
+    )
+
+    figure.add_vline(
+        x=0,
+        line_color="#5E6F73",
+        line_dash="dash",
+    )
+
+    figure.update_layout(
+        height=520,
+        autosize=True,
+        xaxis_title="Standardised coefficient",
+        yaxis_title="Feature",
+        template="plotly_white",
+        showlegend=False,
+        margin={
+            "l": 20,
+            "r": 20,
+            "t": 30,
+            "b": 20,
+        },
+        font={
+            "color": "#172D35",
+        },
+    )
+
+    return figure
