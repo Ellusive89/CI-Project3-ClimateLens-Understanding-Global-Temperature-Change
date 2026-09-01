@@ -22,6 +22,8 @@ presented as a current climate-monitoring system.
 - [Project Purpose](#project-purpose)
 - [Target Audience](#target-audience)
 - [Business Requirements](#business-requirements)
+- [User Stories](#user-stories)
+- [Dataset](#dataset)
 
 ## Project Purpose
 
@@ -130,3 +132,92 @@ The solution must:
 - document data versioning and maintenance;
 - disclose generative AI assistance;
 - make limitations visible in the dashboard and README.
+
+## User Stories
+
+| ID | User story | Acceptance evidence |
+|---|---|---|
+| US1 | As a member of the public, I want a clear project summary so that I can understand the dashboard without reading technical documentation. | Overview page, definitions, metric cards and historical-data notice |
+| US2 | As an educator, I want an interactive global trend chart so that I can explain anomalies and long-term patterns. | Global Trends page with metric, smoothing and year controls |
+| US3 | As a non-technical user, I want uncertainty explained in plain language so that I do not assume all historical measurements are equally precise. | Uncertainty chart, captions and Hypothesis 2 explanation |
+| US4 | As an environmental communicator, I want to compare country patterns fairly so that different absolute climates do not create misleading comparisons. | Country-specific anomalies and equal-period comparison |
+| US5 | As a technical user, I want statistical outputs so that I can inspect how the hypotheses were validated. | Welch statistics, p-values, Cohen's d and box plots |
+| US6 | As a data analyst, I want model and baseline metrics so that I can judge whether model complexity adds value. | Model Performance page |
+| US7 | As a responsible practitioner, I want privacy, legal and governance documentation so that I can assess appropriate use. | Ethics & Governance page and risk register |
+| US8 | As a dashboard user, I want responsive controls and downloadable data so that I can explore and retain relevant results. | Sidebar controls, CSV downloads and responsive layout |
+
+## Dataset
+
+### Source
+
+The project uses the Kaggle dataset:
+
+[Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
+
+The original temperature records were produced by:
+
+[Berkeley Earth](https://berkeleyearth.org/data/)
+
+The dataset was downloaded on 31 August 2026.
+
+### Licence
+
+The Kaggle snapshot is identified as:
+
+**Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).**
+
+The project:
+
+- attributes Kaggle and Berkeley Earth;
+- uses the dataset for educational and non-commercial purposes;
+- documents the licence;
+- preserves provenance;
+- does not claim ownership of the source temperature data.
+
+Berkeley Earth currently describes its data more generally as CC BY-NC 4.0.
+The project follows the more specific terms displayed with the downloaded Kaggle snapshot.
+
+### Files used
+
+| File | Purpose |
+|---|---|
+| `GlobalTemperatures.csv` | Monthly global land, minimum, maximum, land-and-ocean temperatures, and uncertainty |
+| `GlobalLandTemperaturesByCountry.csv` | Monthly country and geographical-area temperature and uncertainty |
+
+The larger city, state, and major-city files were not used because they were not required to answer the business requirements.
+
+### Original dataset dimensions
+
+| Dataset | Rows | Columns | Coverage |
+|---|---:|---:|---|
+| Global temperatures | 3,192 | 9 | January 1750–December 2015 |
+| Country temperatures | 577,462 | 4 | November 1743–September 2013 |
+
+### Main analytical variables
+
+| Variable | Meaning | Unit |
+|---|---|---|
+| `date` | Monthly observation date | Date |
+| `year` | Calendar year | Year |
+| `month` | Calendar month | 1–12 |
+| `land_average_temperature_c` | Global land-average temperature | °C |
+| `land_average_temperature_uncertainty_c` | Reported uncertainty for global land average | °C |
+| `land_ocean_average_temperature_c` | Global combined land-and-ocean average | °C |
+| `land_ocean_average_temperature_uncertainty_c` | Reported uncertainty for combined average | °C |
+| `country` | Source geographical label | Text |
+| `average_temperature_c` | Country or area average temperature | °C |
+| `average_uncertainty_c` | Reported country or area uncertainty | °C |
+| `baseline_temperature_c` | Country-specific 1951–1980 mean | °C |
+| `temperature_anomaly_c` | Difference from the country-specific baseline | °C |
+
+### Versioning
+
+Raw and derived files are separated:
+
+```text
+data/
+├── raw/
+│   └── v1/
+└── processed/
+    └── v1/
+```
