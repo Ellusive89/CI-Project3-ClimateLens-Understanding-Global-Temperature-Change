@@ -45,6 +45,13 @@ pages = {
             icon="🤖",
         ),
     ],
+    "Responsible Practice": [
+        st.Page(
+            "views/ethics_governance.py",
+            title="Ethics & Governance",
+            icon="🛡️",
+        ),
+    ],
 }
 
 navigation = st.navigation(
