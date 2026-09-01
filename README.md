@@ -24,6 +24,9 @@ presented as a current climate-monitoring system.
 - [Business Requirements](#business-requirements)
 - [User Stories](#user-stories)
 - [Dataset](#dataset)
+- [Data Quality and Cleaning](#data-quality-and-cleaning)
+- [Project Hypotheses](#project-hypotheses)
+- [Predictive Model](#predictive-model)
 
 ## Project Purpose
 
@@ -221,3 +224,182 @@ data/
 └── processed/
     └── v1/
 ```
+
+Raw Version 1 files remain unchanged. Notebook-generated outputs are stored in the processed Version 1 directory.
+
+## Data Quality and Cleaning
+
+### Initial findings
+
+- The global dataset contained 3,192 rows and 9 columns.
+- The country dataset contained 577,462 rows and 4 columns.
+- No invalid dates were found.
+- No duplicated global dates were found.
+- No duplicated country-and-date combinations were found.
+- The raw country field contained 243 distinct labels.
+- Global maximum, minimum, and land-and-ocean fields contained 1,200 missing values each because those series begin in January 1850.
+- Global land-average temperature and uncertainty contained 12 missing values each.
+- Country average temperature contained 32,651 missing values.
+- Country uncertainty contained 31,912 missing values.
+
+### Cleaning decisions
+
+- Raw data was preserved without modification.
+- Dates were converted into datetime values.
+- Columns were renamed using descriptive snake_case names.
+- Temperature column names include `_c` to identify Celsius.
+- No temperatures were artificially imputed.
+- Twelve global rows without the primary land-average measurement were removed.
+- Structurally unavailable pre-1850 land-and-ocean fields were retained.
+- Country rows without an average temperature were removed.
+- Antarctica was excluded from the analytical country dataset because none of its 764 records contained an average temperature measurement.
+- Complete-year filters were used for annual comparisons.
+- The incomplete country year 2013 was excluded.
+- Cleaned exports were reloaded and validated.
+
+### Processed data
+
+| File | Purpose |
+|---|---|
+| `global_temperatures_clean.csv` | Cleaned monthly global data |
+| `country_temperatures_clean.csv` | Cleaned monthly country data |
+| `global_annual_summary.csv` | Annual global summaries and anomalies |
+| `country_annual_summary.csv` | Complete country-year summaries and anomalies |
+| `hypothesis_results.csv` | Statistical hypothesis results |
+| `model_test_predictions.csv` | Held-out model predictions |
+| `model_metrics.csv` | Model and baseline performance |
+| `model_cross_validation.csv` | Time-series validation folds |
+| `model_coefficients.csv` | Standardised linear-model coefficients |
+
+## Project Hypotheses
+
+### Hypothesis 1
+
+> The mean global land-and-ocean temperature during 1986–2015 is higher than during 1956–1985.
+
+#### Validation method
+
+- Complete annual averages were used.
+- Both comparison periods contain 30 years.
+- A two-sided Welch independent-samples t-test was performed.
+- Cohen's d was calculated as an effect-size measure.
+- A box plot was used to compare the distributions.
+
+#### Result
+
+| Measurement | Result |
+|---|---:|
+| 1956–1985 mean | 15.318 °C |
+| 1986–2015 mean | 15.701 °C |
+| Later minus earlier | +0.383 °C |
+| Welch t-statistic | 10.501 |
+| Two-sided p-value | 3.207 × 10⁻¹⁴ |
+| Cohen's d | 2.711 |
+| Conclusion | Supported |
+
+The later period was approximately 0.383 °C warmer in this dataset. The large effect size and visual distribution support the conclusion.
+
+The statistical result describes an association with historical time. It does not independently establish the physical causes of warming.
+
+### Hypothesis 2
+
+> Average global land-temperature measurement uncertainty is higher before 1900 than after 1950.
+
+#### Validation method
+
+- Complete annual averages were used.
+- Years before 1900 were compared with years from 1950 onward.
+- A two-sided Welch independent-samples t-test was performed.
+- Cohen's d was calculated.
+- Distribution and time-series visualisations were reviewed.
+
+#### Result
+
+| Measurement | Result |
+|---|---:|
+| Mean before 1900 | 1.524 °C |
+| Mean from 1950 onward | 0.100 °C |
+| Earlier minus later | +1.423 °C |
+| Welch t-statistic | 18.193 |
+| Two-sided p-value | 1.918 × 10⁻³⁹ |
+| Cohen's d | 1.806 |
+| Conclusion | Supported |
+
+Reported uncertainty was substantially higher in the earlier period.
+
+This is consistent with changes in measurement coverage and methods, but the dataset alone cannot identify which specific historical improvements caused the reduction.
+
+### Statistical limitations
+
+- Annual aggregation reduces monthly pseudoreplication.
+- Adjacent annual observations may still be correlated.
+- Time dependence may make conventional p-values optimistic.
+- Welch tests compare means but do not model the complete time-series process.
+- Statistical significance is not equivalent to causal evidence.
+- Effect size and visual evidence are interpreted alongside p-values.
+
+## Predictive Model
+
+### Purpose
+
+The model is an educational one-month-ahead historical prediction prototype.
+
+It predicts monthly global land-and-ocean temperature using preceding historical observations.
+
+It is not:
+
+- a professional climate projection;
+- a physical climate simulation;
+- a live forecasting system;
+- a replacement for authoritative climate models;
+- appropriate for policy or safety-critical decisions.
+
+### Features
+
+The model uses:
+
+- a chronological time index;
+- a cyclical month sine component;
+- a cyclical month cosine component;
+- previous-month temperature;
+- temperature from the same month one year earlier;
+- the previous 12-month rolling mean;
+- the previous 120-month rolling mean.
+
+Lagged and rolling variables use preceding observations. The current target is not included in its own predictors.
+
+### Evaluation design
+
+| Stage | Period |
+|---|---|
+| Feature-ready data | January 1860–December 2015 |
+| Training data | January 1860–December 2005 |
+| Held-out test data | January 2006–December 2015 |
+| Test observations | 120 months |
+| Cross-validation | Five expanding chronological folds |
+
+A random train/test split was deliberately avoided because it could place later observations in training while earlier observations appeared in testing.
+
+### Test performance
+
+| Model | MAE | RMSE | R² |
+|---|---:|---:|---:|
+| Linear regression | 0.089 °C | 0.114 °C | 0.9916 |
+| Seasonal-naive baseline | 0.133 °C | 0.172 °C | 0.9807 |
+
+The linear model reduced:
+
+- MAE by approximately 33%;
+- RMSE by approximately 34%.
+
+The high R² is partly explained by strong seasonal variation. MAE, RMSE, residuals, chronological validation, and benchmark comparison provide more complete evidence than R² alone.
+
+### Model limitations
+
+- The source data ends in December 2015.
+- The model is not trained on current climate observations.
+- It predicts one historical month at a time using preceding observations.
+- It is not a long-range recursive forecast.
+- It does not model physical climate processes.
+- Its coefficients describe predictive associations, not causation.
+- It must not be used for professional or safety-critical decisions.
