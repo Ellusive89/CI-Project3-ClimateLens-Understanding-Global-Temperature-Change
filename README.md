@@ -30,6 +30,8 @@ presented as a current climate-monitoring system.
 - [Dashboard Design](#dashboard-design)
 - [Rationale for Visualisations](#rationale-for-visualisations)
 - [Ethics, Privacy and Governance](#ethics-privacy-and-governance)
+- [Project Plan](#project-plan)
+- [Maintenance, Updates and Evaluation](#maintenance-updates-and-evaluation)
 
 ## Project Purpose
 
@@ -716,3 +718,185 @@ Technical and organisational controls include:
 | Generative AI introduces incorrect content | Medium | Medium | Require author review, execution, testing, and source verification |
 
 Residual risk remains because a public user may ignore explanatory text or reuse a chart without its surrounding limitations. Important caveats are therefore repeated close to the relevant outputs rather than appearing only on the governance page.
+
+## Project Plan
+
+ClimateLens follows an iterative data-analysis lifecycle. The plan is reviewed after each major phase so that decisions can respond to data-quality findings, technical constraints, user needs, and ethical risks.
+
+### Project lifecycle
+
+| Phase | Principal activities | Deliverable | Current status |
+|---|---|---|---|
+| 1. Project definition | Define the problem, purpose, audience, business requirements, and user stories | Project scope and requirements | Completed |
+| 2. Data acquisition | Evaluate suitable datasets, select the Kaggle Berkeley Earth dataset, and record provenance and licensing | Versioned raw data | Completed |
+| 3. Data inspection | Examine structure, dates, missing values, duplicates, labels, and ranges | Initial data-quality findings | Completed |
+| 4. Data cleaning | Rename fields, convert dates, investigate missingness, remove unusable records, and validate exports | Cleaned Version 1 datasets | Completed |
+| 5. Analysis | Create annual summaries, anomalies, descriptive statistics, and visual evidence | Analytical datasets and EDA findings | Completed |
+| 6. Hypothesis testing | Define comparison periods, perform Welch tests, calculate effect sizes, and interpret limitations | Hypothesis results | Completed |
+| 7. Predictive modelling | Engineer chronological features, train the model, create a benchmark, and evaluate performance | Model outputs and model card | Completed |
+| 8. Dashboard implementation | Build the Streamlit navigation, pages, charts, controls, downloads, and responsive styling | Functional multipage dashboard | Completed |
+| 9. Ethics and governance | Examine privacy, bias, licensing, social implications, AI use, and foreseeable risks | Ethics & Governance page | Completed |
+| 10. Documentation | Document the complete lifecycle, decisions, results, testing, deployment, and credits | Structured README | In progress |
+| 11. Verification | Test functions, pages, links, responsiveness, accessibility, and analytical consistency | Recorded test evidence | Planned |
+| 12. Deployment | Prepare deployment files, reduce unnecessary deployment assets, deploy, and perform post-deployment tests | Public dashboard | Planned |
+| 13. Maintenance and evaluation | Review dependencies, data currency, defects, user feedback, and continued fitness for purpose | Maintenance and evaluation record | Planned |
+
+The status column must be updated as the remaining work is completed.
+
+### Implementation priorities
+
+The implementation was prioritised in the following order:
+
+1. Preserve and understand the original data.
+2. Create reproducible cleaned and analytical files.
+3. Validate the hypotheses and their limitations.
+4. Build and benchmark the historical predictive model.
+5. Create a usable dashboard around the business requirements.
+6. Add accessibility, ethical communication, and governance controls.
+7. Complete documentation and testing.
+8. Deploy only after local verification.
+
+This sequence prevented the interface from being designed around unverified assumptions about the data.
+
+### Definition of done
+
+The project will be considered complete when:
+
+- all business requirements have corresponding dashboard functionality;
+- all user stories have been reviewed against the finished application;
+- all notebooks run in their intended sequence without logic errors;
+- generated analytical files are stored in versioned folders;
+- hypothesis results in the README match the calculated notebook outputs;
+- model metrics in the README match the saved evaluation files;
+- the dashboard contains at least two appropriate plot types;
+- all pages load without obvious errors;
+- navigation, filters, downloads, and expandable content work correctly;
+- the interface has been checked at desktop, tablet, and mobile widths;
+- accessibility and responsible-communication decisions are documented;
+- privacy, licensing, bias, and social implications are addressed;
+- manual and automated tests are recorded;
+- the deployed application has been retested;
+- the live application link has been added to the README;
+- known limitations and unresolved defects are documented;
+- the repository contains focused, descriptive commits.
+
+### Review and revision of the plan
+
+The original project plan changed as the data and application were investigated.
+
+| Original assumption or problem | Review finding | Revision made |
+|---|---|---|
+| All files in the Kaggle dataset might be required | The project questions could be answered using the global and country files | City, state, and major-city files were excluded from scope |
+| Missing temperatures might need to be filled | Missingness was structured and sometimes represented unavailable historical measurements | Temperatures were not automatically imputed |
+| Every raw country label could be analysed | Antarctica contained 764 records but no usable average-temperature measurements | Antarctica was excluded and the decision was documented |
+| The final country year could be included in annual comparison | Country observations ended in September 2013 | Complete annual summaries were limited to 2012 |
+| Absolute country temperatures could be compared directly | Different climates make absolute-temperature rankings difficult to interpret | Country-specific 1951–1980 anomalies were used |
+| A random train/test split could evaluate the model | Random splitting would leak future time information into training | Chronological training, testing, and expanding-window validation were used |
+| Model performance could be presented without a simple comparator | Metrics alone do not show whether the model adds useful predictive value | A seasonal-naive benchmark was added |
+| R² could provide the main model summary | Seasonal temperature variation can make R² appear very high | MAE, RMSE, residuals, cross-validation, and benchmark results were emphasised |
+| A single dashboard page might be sufficient | The amount of analysis created an unclear information hierarchy | The application was separated into six purpose-specific pages |
+| Automatically responsive Plotly charts would size correctly | Some charts overlapped following Streamlit layout changes | Explicit chart heights and shared spacing rules were introduced |
+| Markdown containing HTML links would render consistently | Some links appeared as raw HTML in the application | Link markup was corrected and visually retested |
+| Technical explanations could remain in notebooks | Non-technical dashboard users also needed definitions and limitations | Plain-language explanations, captions, expanders, and warnings were added |
+| Ethics could be documented only in the README | Important limitations should also be visible to dashboard users | A dedicated Ethics & Governance page was created |
+
+These revisions demonstrate that the project plan was treated as a living document rather than a fixed sequence of tasks.
+
+## Maintenance, Updates and Evaluation
+
+### Maintenance plan
+
+If the project continues after assessment, the following maintenance activities should be performed.
+
+| Activity | Frequency | Action |
+|---|---|---|
+| Application smoke test | Before every release | Open every page and test principal controls |
+| External-link review | Before every release | Confirm dataset, licence, legal, and scientific links still work |
+| Dependency review | Before every release and periodically afterward | Check compatibility, deprecations, and relevant security notices |
+| Data-currency review | At least annually | Check whether a newer suitable dataset is available |
+| Analytical validation | After every data or logic change | Rerun notebooks and compare outputs with documented results |
+| Accessibility review | After interface changes | Retest headings, labels, contrast, resizing, and keyboard interaction |
+| Performance review | After data or dependency changes | Check application start-up and interaction times |
+| Privacy review | Before hosting changes or new user features | Examine logging, retention, analytics, uploads, and personal-data processing |
+| Licence review | Before redistribution or a change in use | Confirm attribution and non-commercial/share-alike requirements |
+| Risk-register review | Before every significant release | Add new risks and update mitigation measures |
+| Documentation review | Before every release | Update dates, results, known issues, screenshots, and instructions |
+
+### Data-update policy
+
+A new dataset must not silently replace Version 1.
+
+Future data updates should follow this procedure:
+
+1. Record the new data source, download date, licence, and file checksum if available.
+2. Store the unchanged source under a new folder such as `data/raw/v2/`.
+3. Copy the existing notebooks before modifying the cleaning logic.
+4. Repeat the data-quality investigation.
+5. Document differences in structure, coverage, missingness, and labels.
+6. Save generated files under `data/processed/v2/`.
+7. Rerun hypothesis tests and model evaluation.
+8. Compare Version 2 results with the documented Version 1 results.
+9. Retest every dashboard page.
+10. Update the README, data notices, model card, and risk register.
+11. Preserve Version 1 so historical results remain reproducible.
+
+If a new dataset uses a different baseline or methodology, its outputs should not be presented as directly comparable until that compatibility has been evaluated.
+
+### Evaluation plan
+
+The completed project will be evaluated across five areas.
+
+| Evaluation area | Questions |
+|---|---|
+| Functional suitability | Do all pages, filters, tabs, downloads, and navigation controls work as intended? |
+| Analytical correctness | Do dashboard values match processed data, hypothesis results, and saved model metrics? |
+| Communication | Can technical and non-technical users understand the main findings and limitations? |
+| UX and accessibility | Is information easy to find, readable, consistently presented, and usable at different screen sizes? |
+| Ethics and governance | Are privacy, bias, licensing, uncertainty, social impact, intended use, and residual risks communicated clearly? |
+
+### Evaluation measures
+
+Evidence should include:
+
+- successful notebook execution;
+- validation assertions;
+- automated function tests where practical;
+- manual dashboard test cases;
+- link checks;
+- responsive-layout checks;
+- comparison of dashboard values with processed CSV files;
+- comparison of model results with the seasonal-naive benchmark;
+- user feedback from at least one technical and one non-technical reviewer where practical;
+- documented defects, corrections, and retest results;
+- a final post-deployment smoke test.
+
+### User-feedback questions
+
+Test users can be asked:
+
+1. Is the purpose of ClimateLens clear from the Overview page?
+2. Can you identify the final year covered by the data?
+3. Can you explain what a temperature anomaly means?
+4. Can you find and compare two countries or areas?
+5. Can you identify whether each hypothesis was supported?
+6. Can you tell whether the model outperformed its benchmark?
+7. Is it clear that the model is not a professional climate projection?
+8. Can you locate the data source and licence?
+9. Are any controls, charts, labels, or explanations confusing?
+10. Does the dashboard remain usable on your screen size?
+
+Feedback should be recorded with the identified issue, its priority, the action taken, and the retest outcome.
+
+### Release and rollback approach
+
+Before releasing an update:
+
+- create focused commits for each completed change;
+- confirm that raw files have not been altered;
+- rerun relevant notebooks;
+- verify generated outputs;
+- run the complete test plan;
+- update documentation;
+- tag or otherwise identify the tested release.
+
+If an update introduces a serious defect, the application should return to the last verified Git revision while the issue is investigated. Data versions should be retained rather than overwritten, making analytical rollback possible.
