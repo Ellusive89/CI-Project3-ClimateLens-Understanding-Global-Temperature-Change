@@ -29,6 +29,7 @@ presented as a current climate-monitoring system.
 - [Predictive Model](#predictive-model)
 - [Dashboard Design](#dashboard-design)
 - [Rationale for Visualisations](#rationale-for-visualisations)
+- [Ethics, Privacy and Governance](#ethics-privacy-and-governance)
 
 ## Project Purpose
 
@@ -507,3 +508,211 @@ The dashboard contains several different plot types. Each was selected according
 - Captions, warnings, model limitations, and governance content address **BR6** by supporting responsible interpretation.
 
 The dashboard therefore exceeds the requirement to display at least two different plot types. It uses line charts, bar charts, box plots, and a histogram, with each visual connected to a stated business requirement.
+
+## Ethics, Privacy and Governance
+
+This section examines ethical issues, privacy, legal considerations, social implications, and governance controls associated with ClimateLens.
+
+It documents the project's approach to responsible data practice. It is an educational assessment and not legal advice.
+
+### Ethical considerations
+
+#### Historical and geographical bias
+
+Historical temperature measurements do not provide uniform coverage across every period and location.
+
+Earlier observations generally have greater reported uncertainty, while some regions may contain fewer or less representative measurements. Consequently, a value derived from one country, area, or historical period should not automatically be treated as equally reliable or representative of another.
+
+The project reduces these risks by:
+
+- displaying reported uncertainty alongside temperature;
+- preserving missing values until their location and meaning have been investigated;
+- avoiding automatic temperature imputation;
+- using complete years for annual comparisons;
+- comparing equal-length periods;
+- using country-specific anomalies instead of directly ranking absolute temperatures from different climates;
+- describing geographical values as dataset labels rather than assuming that every label represents a currently recognised sovereign state;
+- documenting that the source data is historical.
+
+Antarctica was excluded from the analytical country dataset because all 764 associated average-temperature measurements were missing. This exclusion is documented rather than hidden.
+
+#### Fairness and responsible communication
+
+ClimateLens is designed to avoid overstating what the data and model can demonstrate.
+
+Practices used include:
+
+- plain-language explanations alongside technical results;
+- visible units, baselines, time periods, and data end dates;
+- effect sizes and visual evidence alongside p-values;
+- model error metrics alongside R²;
+- comparison against a seasonal-naive benchmark;
+- warnings placed close to potentially misleading charts;
+- user-controlled filters and downloads;
+- explicit distinction between association and causation.
+
+The project avoids:
+
+- presenting historical observations as current monitoring;
+- interpreting statistical association as proof of climate causation;
+- using temperature rankings as rankings of national responsibility;
+- hiding measurement uncertainty;
+- presenting model coefficients as causal effects;
+- describing the predictive prototype as a professional climate projection.
+
+### Privacy and GDPR
+
+The European Commission describes personal data as information relating to an identified or identifiable living individual.
+
+The analytical datasets used by ClimateLens contain:
+
+- dates;
+- temperature measurements;
+- reported uncertainty;
+- geographical labels;
+- derived anomalies;
+- aggregated model outputs.
+
+No names, email addresses, account identifiers, or other person-level records were identified. The analytical dataset therefore presents a low GDPR risk.
+
+The application also:
+
+- does not ask users to register;
+- does not request names or email addresses;
+- does not accept user-uploaded files;
+- does not intentionally collect precise user location;
+- does not create user profiles;
+- does not make automated decisions about individuals;
+- does not intentionally include advertising or third-party behavioural analytics.
+
+However, a deployed application may generate server logs. Depending on the hosting configuration, logs could include IP addresses or other online identifiers. The hosting provider's privacy, security, access, and retention documentation must therefore be reviewed before the application is treated as a production service.
+
+If future versions introduce accounts, feedback forms, user uploads, analytics, or personalisation, the privacy assessment must be repeated.
+
+Relevant GDPR principles for any future personal-data processing would include:
+
+- lawfulness, fairness, and transparency;
+- purpose limitation;
+- data minimisation;
+- accuracy;
+- storage limitation;
+- integrity and confidentiality;
+- accountability.
+
+Authoritative references:
+
+- [European Commission — What is personal data?](https://commission.europa.eu/law/law-topic/data-protection/information-business-and-organisations/application-gdpr_en)
+- [European Commission — GDPR processing principles](https://commission.europa.eu/law/law-topic/data-protection/information-business-and-organisations/principles-gdpr_en)
+
+These references were reviewed on 1 September 2026.
+
+### Dataset licence and attribution
+
+The downloaded Kaggle snapshot is identified as licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International**, or **CC BY-NC-SA 4.0**.
+
+Berkeley Earth describes its data more generally as available under **CC BY-NC 4.0** for non-commercial use. This project follows the more specific licence presented with the downloaded Kaggle snapshot.
+
+The principal conditions are:
+
+- **Attribution:** Kaggle and Berkeley Earth must be credited.
+- **Non-commercial use:** the data is used for an educational, non-commercial capstone project.
+- **Share alike:** adapted dataset material must be distributed under the required compatible terms.
+- **Licence preservation:** the source and applicable licence information must remain documented.
+- **Future review:** licensing must be checked again before commercial use, redistribution, or a material change in project purpose.
+
+Dataset and licence references:
+
+- [Kaggle — Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
+- [Berkeley Earth — Data Overview](https://berkeleyearth.org/data/)
+- [Creative Commons — CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+The dataset was downloaded on 31 August 2026.
+
+The licence applying to the dataset is separate from any licence applied to the project's original Python code.
+
+### Social implications
+
+Climate information can affect public understanding, education, organisational planning, and policy discussion. Misleading communication could encourage either unjustified alarm or unjustified dismissal of evidence.
+
+Important limitations include:
+
+- national averages can hide regional and community-level differences;
+- temperature change alone does not measure vulnerability or resilience;
+- temperature change does not measure historical greenhouse-gas emissions;
+- temperature change does not establish national or individual responsibility;
+- communities contributing least to emissions may still experience substantial impacts;
+- historical trends should not be presented as current conditions;
+- dashboard findings should be combined with authoritative scientific and social evidence before supporting real-world decisions.
+
+The dashboard is therefore positioned as a public-awareness and educational tool rather than a policy, safety, or professional forecasting system.
+
+### Generative AI transparency
+
+Generative AI assistance was used during the project for:
+
+- clarification of business requirements;
+- planning the dashboard structure;
+- suggestions for code and documentation;
+- explanations of technical concepts;
+- debugging support;
+- reviewing communication and accessibility wording.
+
+The project author remains responsible for:
+
+- entering and executing the code;
+- understanding the analytical methods;
+- verifying calculated values against notebook outputs;
+- reviewing generated suggestions;
+- testing the application;
+- documenting external sources;
+- interpreting findings;
+- making final design and implementation decisions.
+
+AI-generated text or code was not treated as automatically correct. Statistical measurements were calculated from the project data, and external factual or legal statements were checked against appropriate sources.
+
+### Data-governance approach
+
+The project uses the following data lifecycle:
+
+1. **Acquire:** download the documented Kaggle dataset snapshot.
+2. **Preserve:** retain unchanged source files under `data/raw/v1/`.
+3. **Inspect:** examine structure, dates, missing values, ranges, and duplicates.
+4. **Clean:** document transformations in Jupyter notebooks.
+5. **Version:** store generated files under `data/processed/v1/`.
+6. **Validate:** reload exports and check expected structure and values.
+7. **Analyse:** create complete-year analytical summaries.
+8. **Model:** preserve chronological order and compare against a benchmark.
+9. **Publish:** communicate provenance, limitations, intended use, and risks.
+10. **Maintain:** review dependencies, links, data currency, tests, and documentation.
+11. **Update or retire:** create a new version rather than silently overwriting historical data.
+
+Technical and organisational controls include:
+
+- separation of raw and processed data;
+- dedicated version folders;
+- reproducible notebook transformations;
+- validation assertions;
+- chronological model evaluation;
+- exclusion of secrets and Kaggle credentials from Git;
+- documentation of data provenance and licences;
+- visible dataset and model limitations;
+- focused Git commits for individual features and fixes;
+- renewed validation when data or dependencies change;
+- domain-expert review before any operational use.
+
+### Risk register
+
+| Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|
+| Historical data is interpreted as current | Medium | High | Display dataset end dates and historical-data notices |
+| Temperature association is interpreted as causation | Medium | High | Use association language and provide causal limitations |
+| Geographical coverage bias is overlooked | Medium | Medium | Display uncertainty and document coverage limitations |
+| A country comparison is interpreted as climate responsibility | Medium | High | Explain that temperature change does not measure emissions, responsibility, or vulnerability |
+| Predictive model is treated as a professional projection | Medium | High | Label it as an educational historical prototype and display a model card |
+| Missing data is concealed through inappropriate imputation | Low | High | Preserve missingness, investigate its structure, and document exclusions |
+| Model performance is overstated by R² | Medium | Medium | Report MAE, RMSE, residuals, cross-validation, and benchmark performance |
+| Dataset licence requirements are breached | Low | High | Preserve attribution and licence documentation and restrict use to the stated educational purpose |
+| Hosting logs introduce personal-data processing | Low | Medium | Review provider logging and retention policies before production use |
+| Generative AI introduces incorrect content | Medium | Medium | Require author review, execution, testing, and source verification |
+
+Residual risk remains because a public user may ignore explanatory text or reuse a chart without its surrounding limitations. Important caveats are therefore repeated close to the relevant outputs rather than appearing only on the governance page.
