@@ -3,18 +3,18 @@
 [View the GitHub repository](https://github.com/Ellusive89/CI-Project3-ClimateLens-Understanding-Global-Temperature-Change)
 [View the live ClimateLens dashboard](https://climatelens-global-temperature-54cc5c60cb7b.herokuapp.com/)
 
-ClimateLens is an interactive Streamlit data dashboard that explores historical
-global and country-level temperature patterns, reported measurement
-uncertainty, project hypotheses, and an educational predictive model.
+ClimateLens is an interactive Streamlit data dashboard that explores historical global and country-level temperature patterns, reported measurement uncertainty, project hypotheses, and an educational predictive model.
 
-The project was created as a capstone project for ethical practice and
-communication in data analytics. It combines data analysis, visualisation,
-statistical hypothesis testing, predictive modelling, accessible
-communication, and responsible data governance.
+The project was created as a capstone project for ethical practice and communication in data analytics. It combines data analysis, visualisation, statistical hypothesis testing, predictive modelling, accessible communication, and responsible data governance.
 
-The source dataset is historical. Global observations end in December 2015,
-and complete country-year summaries end in 2012. ClimateLens must not be
-presented as a current climate-monitoring system.
+The source dataset is historical. Global observations end in December 2015, and complete country-year summaries end in 2012. ClimateLens must not be presented as a current climate-monitoring system.
+
+### Personal motivation
+
+I chose to explore global temperature change because I find it both important and revealing to see how the planet's temperature has changed over time. Long-term environmental change can be difficult to appreciate when individual years are viewed in isolation, but historical data helps make the broader pattern more visible.
+
+I hope ClimateLens encourages users to pause, consider the significance of these changes, and become more aware of climate and environmental
+sustainability. The project is intended to make historical temperature data more approachable without overstating what a single dataset can prove.
 
 ---
 
@@ -994,6 +994,22 @@ Future data updates should follow this procedure:
 11. Preserve Version 1 so historical results remain reproducible.
 
 If a new dataset uses a different baseline or methodology, its outputs should not be presented as directly comparable until that compatibility has been evaluated.
+
+### Future development
+
+A future version of ClimateLens could combine temperature records with additional environmental and socioeconomic datasets. Potential areas for
+investigation include:
+
+- sea-level change;
+- crop yields and food security;
+- water availability;
+- energy consumption and seasonal energy demand;
+- biodiversity and ecosystem indicators;
+- extreme-weather frequency or intensity.
+
+These additions could support correlation and time-lag analysis to investigate whether changes in temperature are associated with changes in other systems. The dashboard could then provide linked visualisations showing how different indicators change over time.
+
+Such analysis would require careful selection of compatible geographical and time periods, investigation of missing data, and consideration of confounding variables. Any observed correlation would be presented as an association and would not, by itself, demonstrate that temperature change caused the other observed change.
 
 ### Evaluation plan
 
