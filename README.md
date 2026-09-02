@@ -9,12 +9,6 @@ The project was created as a capstone project for ethical practice and communica
 
 The source dataset is historical. Global observations end in December 2015, and complete country-year summaries end in 2012. ClimateLens must not be presented as a current climate-monitoring system.
 
-### Personal motivation
-
-I chose to explore global temperature change because I find it both important and revealing to see how the planet's temperature has changed over time. Long-term environmental change can be difficult to appreciate when individual years are viewed in isolation, but historical data helps make the broader pattern more visible.
-
-I hope ClimateLens encourages users to pause, consider the significance of these changes, and become more aware of climate and environmental
-sustainability. The project is intended to make historical temperature data more approachable without overstating what a single dataset can prove.
 
 ---
 
@@ -47,6 +41,21 @@ sustainability. The project is intended to make historical temperature data more
 
 
 ## Project Purpose
+
+### Personal motivation
+
+I chose to explore global temperature change because I find it both important and revealing to see how the planet's temperature has changed over time. Long-term environmental change can be difficult to appreciate when individual years are viewed in isolation, but historical data helps make the broader pattern more visible.
+
+I hope ClimateLens encourages users to pause, consider the significance of these changes, and become more aware of climate and environmental
+sustainability. The project is intended to make historical temperature data more approachable without overstating what a single dataset can prove.
+
+### Project scope
+
+ClimateLens implements environmental data analysis, predictive modelling, interactive data visualisation, and public-awareness communication using a historical Kaggle dataset.
+
+Real-time environmental sensor or IoT integration was not included in Version 1 because the selected dataset is a fixed historical snapshot rather than a live data source. Formal collaboration with an environmental organisation or climate-data expert was also outside the available project scope.
+
+A future version could incorporate verified sensor or authoritative API data and seek external review from environmental organisations or subject-matter experts. Any such extension would require a new privacy, licensing, data-quality, methodology, and governance review.
 
 Climate change datasets contain long time series, uncertainty measurements, geographical differences, and technical statistical results. These can be difficult for a general audience to interpret responsibly.
 
