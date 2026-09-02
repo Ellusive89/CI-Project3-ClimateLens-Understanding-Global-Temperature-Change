@@ -28,6 +28,7 @@ presented as a current climate-monitoring system.
 - [Data Quality and Cleaning](#data-quality-and-cleaning)
 - [Project Hypotheses](#project-hypotheses)
 - [Predictive Model](#predictive-model)
+- [Analysis Visualisations](#analysis-visualisations)
 - [Dashboard Design](#dashboard-design)
 - [Rationale for Visualisations](#rationale-for-visualisations)
 - [Ethics, Privacy and Governance](#ethics-privacy-and-governance)
@@ -443,6 +444,58 @@ The high R² is partly explained by strong seasonal variation. MAE, RMSE, residu
 
 
 
+## Analysis Visualisations
+
+The interactive Plotly outputs produced in the analytical notebooks may not render directly when the notebooks are viewed on GitHub. The following static
+exports provide accessible evidence of the main analytical results.
+
+### Global temperature-anomaly trend
+
+![Annual global temperature anomaly and rolling trend](docs/images/analysis/global-temperature-anomaly-trend.png)
+
+The annual series contains substantial short-term variation, while the rolling mean makes the longer-term pattern easier to interpret. The later decades in
+the historical dataset contain predominantly positive anomalies relative to the project's 1951–1980 baseline.
+
+This visualisation supports **BR1**, which requires the project to communicate long-term global temperature change.
+
+### Hypothesis 1 — Temperature-period comparison
+
+![Annual global temperature comparison between historical periods](docs/images/analysis/hypothesis-1-period-comparison.png)
+
+The distribution for 1986–2015 is positioned above the distribution for 1956–1985. The statistical analysis found a mean difference of **0.383 °C**,
+supporting the first project hypothesis.
+
+This box plot supports **BR4** by presenting the distribution and practical difference alongside the statistical test results.
+
+### Hypothesis 2 — Measurement-uncertainty comparison
+
+![Reported measurement uncertainty by historical period](docs/images/analysis/hypothesis-2-uncertainty-comparison.png)
+
+Reported measurement uncertainty is substantially higher in observations before 1900 than in observations from 1950 onward. This supports the second
+project hypothesis while also demonstrating why older observations require careful interpretation.
+
+This visualisation supports **BR2** and **BR4**.
+
+### Country-level anomaly comparison
+
+![Comparison of country-level annual temperature anomalies](docs/images/analysis/country-anomaly-comparison.png)
+
+Country-specific anomalies allow areas with different absolute climates to be compared on a more meaningful basis. The figure demonstrates that geographical
+temperature patterns vary and that the global average does not describe every location identically.
+
+This visualisation supports **BR3**.
+
+### Historical model predictions
+
+![Observed temperature, linear-model predictions and benchmark predictions](docs/images/analysis/model-predictions.png)
+
+The figure compares observed test-period temperatures with the linear-model predictions and the seasonal-naive benchmark. The visual evidence complements
+the reported MAE, RMSE and R² metrics without presenting the historical prototype as a future climate projection.
+
+This visualisation supports **BR5**.
+
+
+
 
 ## Dashboard Design
 
@@ -458,6 +511,59 @@ ClimateLens uses a multipage Streamlit interface so users can move progressively
 | Hypotheses | Presents the two project hypotheses, statistical results, visual evidence, and plain-language conclusions |
 | Model Performance | Compares the historical prediction model with a seasonal-naive benchmark and provides technical diagnostics |
 | Ethics & Governance | Documents privacy, licensing, bias, social implications, governance controls, maintenance, and project risks |
+
+### Deployed dashboard preview
+
+The following screenshots show the deployed application and its principal
+navigation pages.
+
+#### Overview
+
+![ClimateLens dashboard overview](docs/images/dashboard/dashboard-overview.png)
+
+The Overview page introduces the project's purpose, historical-data scope, key
+metrics and questions addressed by the dashboard.
+
+#### Global Trends
+
+![ClimateLens Global Trends page](docs/images/dashboard/dashboard-global-trends.png)
+![ClimateLens Global Trends page](docs/images/dashboard/dashboard-global-trends2.png)
+
+
+The Global Trends page presents annual temperature measurements, anomalies,
+rolling trends and reported uncertainty.
+
+#### Country Explorer
+
+![ClimateLens Country Explorer page](docs/images/dashboard/dashboard-country-explorer.png)
+![ClimateLens Country Explorer page](docs/images/dashboard/dashboard-country-explorer2.png)
+
+The Country Explorer supports interactive comparison of country and area
+temperature anomalies over a shared historical period.
+
+#### Hypotheses
+
+![ClimateLens Hypotheses page](docs/images/dashboard/dashboard-hypotheses.png)
+![ClimateLens Hypotheses page](docs/images/dashboard/dashboard-hypotheses2.png)
+
+The Hypotheses page combines plain-language findings, distribution
+visualisations and technical statistical results.
+
+#### Model Performance
+
+![ClimateLens Model Performance page](docs/images/dashboard/dashboard-model-performance.png)
+![ClimateLens Model Performance page](docs/images/dashboard/dashboard-model-performance2.png)
+
+The Model Performance page compares the historical linear model with a
+seasonal-naive benchmark and communicates the model's intended use and
+limitations.
+
+#### Ethics and Governance
+
+![ClimateLens Ethics and Governance page](docs/images/dashboard/dashboard-ethics-governance.png)
+
+The Ethics and Governance page explains data provenance, privacy, licensing,
+bias, social implications, governance controls and prohibited uses.
 
 ### Information hierarchy
 
