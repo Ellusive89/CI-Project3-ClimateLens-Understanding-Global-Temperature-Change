@@ -40,6 +40,7 @@ presented as a current climate-monitoring system.
 - [Project Structure](#project-structure)
 - [Local Development](#local-development)
 - [Assessment Criteria Mapping](#assessment-criteria-mapping)
+- [Credits and Acknowledgements](#credits-and-acknowledgements)
 
 
 
@@ -1446,3 +1447,70 @@ This section identifies where evidence for each pass criterion can be found.
 | Effective Git usage | Focused commits document data, notebook, dashboard, testing, documentation, and deployment changes |
 | Responsive and accessible design | Dashboard design evidence and responsive/accessibility results in [TESTING.md](TESTING.md) |
 | Complete lifecycle documentation | README sections cover purpose, data, methodology, design, modelling, ethics, planning, reflection, testing, deployment, and maintenance |
+
+
+
+
+## Credits and Acknowledgements
+
+### Data source
+
+ClimateLens uses the Berkeley Earth surface-temperature dataset distributed through Kaggle:
+
+- [Kaggle — Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data)
+- [Berkeley Earth — Data Overview](https://berkeleyearth.org/data/)
+
+The Version 1 source snapshot was downloaded from Kaggle on 31 August 2026.
+
+The Kaggle snapshot identifies the dataset as licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+The dataset is credited to Berkeley Earth and Kaggle and is used for this educational, non-commercial project. Processed and adapted dataset outputs remain subject to the applicable attribution, non-commercial-use, and share-alike conditions.
+
+### Project template and learning resources
+
+The repository was created from the [Code Institute Data Analytics Project Template](https://github.com/Code-Institute-Org/data-analytics-template).
+
+Code Institute course materials and assessment guidance informed the project's structure, notebook workflow, business-requirement approach, documentation expectations, and deployment process.
+
+ClimateLens is an original capstone implementation created by Ewa Nagrodzka.
+
+### Libraries and official documentation
+
+The following official documentation was consulted during development:
+
+- [Python documentation](https://docs.python.org/3/)
+- [Pandas documentation](https://pandas.pydata.org/docs/)
+- [NumPy documentation](https://numpy.org/doc/)
+- [SciPy documentation](https://docs.scipy.org/doc/scipy/)
+- [scikit-learn documentation](https://scikit-learn.org/stable/)
+- [Plotly Python documentation](https://plotly.com/python/)
+- [Streamlit documentation](https://docs.streamlit.io/)
+- [pytest documentation](https://docs.pytest.org/)
+- [Heroku documentation](https://devcenter.heroku.com/)
+
+Third-party libraries retain their own licences and copyright terms.
+
+### Generative AI assistance
+
+Generative AI tools were used responsibly during the development of this project:
+
+- **OpenAI Codex** supported project planning, requirement interpretation, documentation structure, debugging guidance, and explanations.
+- **GitHub Copilot** assisted with identifying potential mistakes in the code and suggesting possible corrections.
+
+AI-generated suggestions were not treated as automatically correct. Statistical results were calculated from the project data, and factual or legal claims were checked against relevant sources.
+
+### Original work
+
+Unless explicitly credited above:
+
+- custom Python application code was written for ClimateLens;
+- data-cleaning and analytical decisions were developed for this project;
+- hypotheses and model evaluation were implemented specifically for the selected business requirements;
+- dashboard narratives, visualisations, styling, tests, and documentation were created for this project;
+- no third-party application code was copied without attribution.
+
+### Licence note
+
+The dataset licence is separate from the copyright status of the original application code and documentation.
+
+No standalone open-source licence is granted for the original ClimateLens code unless a separate licence file is added to the repository. Public repository access does not remove the need to respect dataset, library, documentation, and author copyright conditions.
