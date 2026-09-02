@@ -526,8 +526,8 @@ metrics and questions addressed by the dashboard.
 
 #### Global Trends
 
-![ClimateLens Global Trends page](docs/images/dashboard/dashboard-global-trends.png)
-![ClimateLens Global Trends page](docs/images/dashboard/dashboard-global-trends2.png)
+![Global Trends page with controls and selected-period summary](docs/images/dashboard/dashboard-global-trends.png)
+![Global temperature-anomaly chart and measurement-uncertainty section](docs/images/dashboard/dashboard-global-trends2.png)
 
 
 The Global Trends page presents annual temperature measurements, anomalies,
@@ -535,24 +535,24 @@ rolling trends and reported uncertainty.
 
 #### Country Explorer
 
-![ClimateLens Country Explorer page](docs/images/dashboard/dashboard-country-explorer.png)
-![ClimateLens Country Explorer page](docs/images/dashboard/dashboard-country-explorer2.png)
+![Country Explorer controls and selected-comparison summary](docs/images/dashboard/dashboard-country-explorer.png)
+![Country-specific temperature-anomaly comparison chart](docs/images/dashboard/dashboard-country-explorer2.png)
 
 The Country Explorer supports interactive comparison of country and area
 temperature anomalies over a shared historical period.
 
 #### Hypotheses
 
-![ClimateLens Hypotheses page](docs/images/dashboard/dashboard-hypotheses.png)
-![ClimateLens Hypotheses page](docs/images/dashboard/dashboard-hypotheses2.png)
+![Project Hypotheses page summary and Hypothesis 1 results](docs/images/dashboard/dashboard-hypotheses.png)
+![Hypothesis 1 temperature-period box-plot comparison](docs/images/dashboard/dashboard-hypotheses2.png)
 
 The Hypotheses page combines plain-language findings, distribution
 visualisations and technical statistical results.
 
 #### Model Performance
 
-![ClimateLens Model Performance page](docs/images/dashboard/dashboard-model-performance.png)
-![ClimateLens Model Performance page](docs/images/dashboard/dashboard-model-performance2.png)
+![Model Performance page with held-out test metrics](docs/images/dashboard/dashboard-model-performance.png)
+![Observed and predicted monthly temperature comparison](docs/images/dashboard/dashboard-model-performance2.png)
 
 The Model Performance page compares the historical linear model with a
 seasonal-naive benchmark and communicates the model's intended use and
