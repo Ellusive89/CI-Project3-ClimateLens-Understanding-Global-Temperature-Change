@@ -36,6 +36,10 @@ presented as a current climate-monitoring system.
 - [Challenges and Project Retrospective](#challenges-and-project-retrospective)
 - [Testing](#testing)
 - [Deployment](#deployment)
+- [Technologies](#technologies)
+- [Project Structure](#project-structure)
+- [Local Development](#local-development)
+
 
 ## Project Purpose
 
@@ -54,6 +58,7 @@ ClimateLens addresses this problem by providing a structured data story that:
 
 The dashboard is designed as a public-awareness and educational analytics tool. It is not a professional climate projection or current monitoring service.
 
+
 ## Target Audience
 
 The intended users are:
@@ -64,6 +69,7 @@ The intended users are:
 - sustainability and policy teams seeking an accessible historical overview;
 - data analysts interested in time-series analysis and responsible modelling;
 - members of the public interested in long-term temperature change.
+
 
 ## Business Requirements
 
@@ -145,6 +151,7 @@ The solution must:
 - disclose generative AI assistance;
 - make limitations visible in the dashboard and README.
 
+
 ## User Stories
 
 | ID | User story | Acceptance evidence |
@@ -157,6 +164,7 @@ The solution must:
 | US6 | As a data analyst, I want model and baseline metrics so that I can judge whether model complexity adds value. | Model Performance page |
 | US7 | As a responsible practitioner, I want privacy, legal and governance documentation so that I can assess appropriate use. | Ethics & Governance page and risk register |
 | US8 | As a dashboard user, I want responsive controls and downloadable data so that I can explore and retain relevant results. | Sidebar controls, CSV downloads and responsive layout |
+
 
 ## Dataset
 
@@ -280,6 +288,7 @@ Raw Version 1 files remain unchanged. Notebook-generated outputs are stored in t
 | `model_cross_validation.csv` | Time-series validation folds |
 | `model_coefficients.csv` | Standardised linear-model coefficients |
 
+
 ## Project Hypotheses
 
 ### Hypothesis 1
@@ -347,6 +356,7 @@ This is consistent with changes in measurement coverage and methods, but the dat
 - Statistical significance is not equivalent to causal evidence.
 - Effect size and visual evidence are interpreted alongside p-values.
 
+
 ## Predictive Model
 
 ### Purpose
@@ -412,6 +422,7 @@ The high R² is partly explained by strong seasonal variation. MAE, RMSE, residu
 - It does not model physical climate processes.
 - Its coefficients describe predictive associations, not causation.
 - It must not be used for professional or safety-critical decisions.
+
 
 ## Dashboard Design
 
@@ -485,6 +496,7 @@ Accessibility decisions include:
 
 The dashboard should still be manually tested at desktop, tablet, and mobile-width layouts before deployment.
 
+
 ## Rationale for Visualisations
 
 The dashboard contains several different plot types. Each was selected according to the analytical question rather than for decoration.
@@ -514,6 +526,7 @@ The dashboard contains several different plot types. Each was selected according
 - Captions, warnings, model limitations, and governance content address **BR6** by supporting responsible interpretation.
 
 The dashboard therefore exceeds the requirement to display at least two different plot types. It uses line charts, bar charts, box plots, and a histogram, with each visual connected to a stated business requirement.
+
 
 ## Ethics, Privacy and Governance
 
@@ -723,6 +736,7 @@ Technical and organisational controls include:
 
 Residual risk remains because a public user may ignore explanatory text or reuse a chart without its surrounding limitations. Important caveats are therefore repeated close to the relevant outputs rather than appearing only on the governance page.
 
+
 ## Project Plan
 
 ClimateLens follows an iterative data-analysis lifecycle. The plan is reviewed after each major phase so that decisions can respond to data-quality findings, technical constraints, user needs, and ethical risks.
@@ -805,6 +819,7 @@ The original project plan changed as the data and application were investigated.
 | Ethics could be documented only in the README | Important limitations should also be visible to dashboard users | A dedicated Ethics & Governance page was created |
 
 These revisions demonstrate that the project plan was treated as a living document rather than a fixed sequence of tasks.
+
 
 ## Maintenance, Updates and Evaluation
 
@@ -904,6 +919,7 @@ Before releasing an update:
 - tag or otherwise identify the tested release.
 
 If an update introduces a serious defect, the application should return to the last verified Git revision while the issue is investigated. Data versions should be retained rather than overwritten, making analytical rollback possible.
+
 
 ## Challenges and Project Retrospective
 
@@ -1020,6 +1036,7 @@ The principal lessons were:
 11. Generative AI suggestions still require human verification and responsibility.
 12. A project plan should change when evidence shows that an original assumption was unsuitable.
 
+
 ## Testing
 
 ClimateLens was tested using automated validation, manual functional checks, responsive-layout testing, accessibility review, browser-compatibility testing, and external-link testing.
@@ -1046,6 +1063,7 @@ Post-deployment verification confirmed that:
 The deployed tests were completed on 2 September 2026.
 
 Detailed test cases, results, resolved defects, and known limitations are documented in [TESTING.md](TESTING.md).
+
 
 ## Deployment
 
@@ -1082,3 +1100,249 @@ The production command is:
 ```text
 streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
 ```
+
+
+## Technologies
+
+ClimateLens uses Python as its only programming language. Markdown, CSS, TOML, and configuration files support documentation, presentation, and deployment.
+
+| Technology | Version | Purpose |
+|---|---:|---|
+| Python | 3.12 | Principal programming language |
+| Streamlit | 1.40.2 | Multipage dashboard framework |
+| Pandas | 2.1.1 | Data loading, transformation, aggregation, and analysis |
+| NumPy | 1.26.1 | Numerical calculations and model feature engineering |
+| Plotly | 5.17.0 | Interactive dashboard and notebook visualisations |
+| SciPy | 1.11.3 | Welch hypothesis tests and statistical calculations |
+| scikit-learn | 1.3.1 | Linear-regression pipeline, scaling, metrics, and chronological validation |
+| nbformat | 5.10.4 | Plotly rendering within Jupyter notebooks |
+| ipykernel | 7.3.0 | Python kernel used to execute notebooks in VS Code |
+| pytest | 9.1.1 | Automated data, chart, and Streamlit smoke testing |
+| CSS | — | Custom responsive dashboard presentation |
+| Git | — | Local version control |
+| GitHub | — | Remote repository and development history |
+| Heroku | — | Public application hosting |
+| Kaggle | — | Distribution source for the Berkeley Earth dataset |
+
+### Dependency groups
+
+Dependencies are separated according to purpose:
+
+| File | Purpose |
+|---|---|
+| `requirements.txt` | Small production dependency set used by Heroku |
+| `requirements-analysis.txt` | Production dependencies plus notebook analysis and kernel packages |
+| `requirements-dev.txt` | Production dependencies plus pytest |
+
+This separation prevents notebook-only modelling libraries from increasing production deployment time and size.
+
+
+## Project Structure
+
+```text
+.
+├── .streamlit/
+│   └── config.toml
+├── assets/
+│   └── style.css
+├── data/
+│   ├── raw/
+│   │   └── v1/
+│   │       ├── GlobalLandTemperaturesByCountry.csv
+│   │       ├── GlobalTemperatures.csv
+│   │       └── README.md
+│   └── processed/
+│       └── v1/
+│           ├── cleaning_summary.csv
+│           ├── country_annual_summary.csv
+│           ├── country_temperatures_clean.csv
+│           ├── global_annual_summary.csv
+│           ├── global_temperatures_clean.csv
+│           ├── hypothesis_results.csv
+│           ├── model_coefficients.csv
+│           ├── model_cross_validation.csv
+│           ├── model_metrics.csv
+│           └── model_test_predictions.csv
+├── jupyter_notebooks/
+│   ├── 01_data_collection_and_inspection.ipynb
+│   ├── 02_data_cleaning_and_validation.ipynb
+│   ├── 03_exploratory_analysis_and_hypothesis_validation.ipynb
+│   ├── 04_predictive_modelling.ipynb
+│   └── Notebook_Template.ipynb
+├── src/
+│   ├── __init__.py
+│   ├── charts.py
+│   ├── data_loader.py
+│   └── ui.py
+├── tests/
+│   ├── test_charts.py
+│   ├── test_data_loader.py
+│   └── test_streamlit_pages.py
+├── views/
+│   ├── country_explorer.py
+│   ├── ethics_governance.py
+│   ├── global_trends.py
+│   ├── hypotheses.py
+│   ├── model_performance.py
+│   └── overview.py
+├── .gitignore
+├── .python-version
+├── .slugignore
+├── app.py
+├── Procfile
+├── README.md
+├── TESTING.md
+├── requirements-analysis.txt
+├── requirements-dev.txt
+└── requirements.txt
+```
+
+### Principal application files
+
+| File or directory | Responsibility |
+|---|---|
+| `app.py` | Configures Streamlit and registers the six dashboard pages |
+| `views/` | Contains the user-facing dashboard pages |
+| `src/data_loader.py` | Loads and validates versioned dashboard data |
+| `src/charts.py` | Contains reusable Plotly chart functions |
+| `src/ui.py` | Contains shared interface and presentation helpers |
+| `assets/style.css` | Provides custom responsive styling |
+| `jupyter_notebooks/` | Documents data acquisition, cleaning, analysis, hypotheses, and modelling |
+| `data/raw/v1/` | Preserves the unchanged source snapshot |
+| `data/processed/v1/` | Stores reproducible cleaned and analytical outputs |
+| `tests/` | Contains automated validation and smoke tests |
+| `TESTING.md` | Records automated, manual, responsive, accessibility, browser, and deployed tests |
+
+
+## Local Development
+
+### Prerequisites
+
+To run ClimateLens locally, install:
+
+- Git;
+- Python 3.12;
+- a code editor such as VS Code;
+- the VS Code Python and Jupyter extensions when reviewing notebooks.
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Ellusive89/CI-Project3-ClimateLens-Understanding-Global-Temperature-Change.git
+```
+
+Enter the project directory:
+
+```bash
+cd CI-Project3-ClimateLens-Understanding-Global-Temperature-Change
+```
+
+### Create and activate a virtual environment
+
+Create the environment:
+
+```bash
+python3.12 -m venv .venv
+```
+
+Activate it on macOS or Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+On Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Upgrade pip:
+
+```bash
+python -m pip install --upgrade pip
+```
+
+### Run the dashboard
+
+Install the production dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Start Streamlit from the repository root:
+
+```bash
+streamlit run app.py
+```
+
+Open the local address displayed in the terminal, normally:
+
+```text
+http://localhost:8501
+```
+
+Stop the server with `Control + C`.
+
+If port 8501 is unavailable, use:
+
+```bash
+streamlit run app.py --server.port=8502
+```
+
+### Run the analytical notebooks
+
+Install the analysis dependencies:
+
+```bash
+python -m pip install -r requirements-analysis.txt
+```
+
+In VS Code:
+
+1. Open the repository folder.
+2. Open a notebook.
+3. Select the Python interpreter from `.venv`.
+4. Run notebooks in numerical order.
+
+The intended execution order is:
+
+1. `01_data_collection_and_inspection.ipynb`
+2. `02_data_cleaning_and_validation.ipynb`
+3. `03_exploratory_analysis_and_hypothesis_validation.ipynb`
+4. `04_predictive_modelling.ipynb`
+
+Running notebooks in order recreates the processed Version 1 analytical files used by the dashboard.
+
+The two selected raw CSV files are versioned in the repository, so Kaggle credentials are not required to reproduce the existing Version 1 analysis.
+
+### Run the automated tests
+
+Install the testing dependencies:
+
+```bash
+python -m pip install -r requirements-dev.txt
+```
+
+Run the complete suite:
+
+```bash
+python -m pytest -v
+```
+
+The documented result is:
+
+```text
+19 passed
+```
+
+Two non-failing Plotly/Pandas compatibility warnings may appear. Further details are recorded in [TESTING.md](TESTING.md).
+
+### Configuration and secrets
+
+ClimateLens does not require application secrets, API keys, a database, or user accounts.
+
+Kaggle credentials must never be committed. The repository's `.gitignore` excludes `kaggle.json`.
+
+The application must be started from the repository root so relative data, view, and asset paths resolve consistently.
