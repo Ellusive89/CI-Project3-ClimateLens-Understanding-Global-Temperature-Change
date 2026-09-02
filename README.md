@@ -39,6 +39,9 @@ presented as a current climate-monitoring system.
 - [Technologies](#technologies)
 - [Project Structure](#project-structure)
 - [Local Development](#local-development)
+- [Assessment Criteria Mapping](#assessment-criteria-mapping)
+
+
 
 
 ## Project Purpose
@@ -59,6 +62,8 @@ ClimateLens addresses this problem by providing a structured data story that:
 The dashboard is designed as a public-awareness and educational analytics tool. It is not a professional climate projection or current monitoring service.
 
 
+
+
 ## Target Audience
 
 The intended users are:
@@ -69,6 +74,8 @@ The intended users are:
 - sustainability and policy teams seeking an accessible historical overview;
 - data analysts interested in time-series analysis and responsible modelling;
 - members of the public interested in long-term temperature change.
+
+
 
 
 ## Business Requirements
@@ -152,6 +159,8 @@ The solution must:
 - make limitations visible in the dashboard and README.
 
 
+
+
 ## User Stories
 
 | ID | User story | Acceptance evidence |
@@ -164,6 +173,8 @@ The solution must:
 | US6 | As a data analyst, I want model and baseline metrics so that I can judge whether model complexity adds value. | Model Performance page |
 | US7 | As a responsible practitioner, I want privacy, legal and governance documentation so that I can assess appropriate use. | Ethics & Governance page and risk register |
 | US8 | As a dashboard user, I want responsive controls and downloadable data so that I can explore and retain relevant results. | Sidebar controls, CSV downloads and responsive layout |
+
+
 
 
 ## Dataset
@@ -244,6 +255,8 @@ data/
 
 Raw Version 1 files remain unchanged. Notebook-generated outputs are stored in the processed Version 1 directory.
 
+
+
 ## Data Quality and Cleaning
 
 ### Initial findings
@@ -287,6 +300,8 @@ Raw Version 1 files remain unchanged. Notebook-generated outputs are stored in t
 | `model_metrics.csv` | Model and baseline performance |
 | `model_cross_validation.csv` | Time-series validation folds |
 | `model_coefficients.csv` | Standardised linear-model coefficients |
+
+
 
 
 ## Project Hypotheses
@@ -357,6 +372,8 @@ This is consistent with changes in measurement coverage and methods, but the dat
 - Effect size and visual evidence are interpreted alongside p-values.
 
 
+
+
 ## Predictive Model
 
 ### Purpose
@@ -422,6 +439,8 @@ The high R² is partly explained by strong seasonal variation. MAE, RMSE, residu
 - It does not model physical climate processes.
 - Its coefficients describe predictive associations, not causation.
 - It must not be used for professional or safety-critical decisions.
+
+
 
 
 ## Dashboard Design
@@ -497,6 +516,8 @@ Accessibility decisions include:
 The dashboard should still be manually tested at desktop, tablet, and mobile-width layouts before deployment.
 
 
+
+
 ## Rationale for Visualisations
 
 The dashboard contains several different plot types. Each was selected according to the analytical question rather than for decoration.
@@ -526,6 +547,8 @@ The dashboard contains several different plot types. Each was selected according
 - Captions, warnings, model limitations, and governance content address **BR6** by supporting responsible interpretation.
 
 The dashboard therefore exceeds the requirement to display at least two different plot types. It uses line charts, bar charts, box plots, and a histogram, with each visual connected to a stated business requirement.
+
+
 
 
 ## Ethics, Privacy and Governance
@@ -737,6 +760,8 @@ Technical and organisational controls include:
 Residual risk remains because a public user may ignore explanatory text or reuse a chart without its surrounding limitations. Important caveats are therefore repeated close to the relevant outputs rather than appearing only on the governance page.
 
 
+
+
 ## Project Plan
 
 ClimateLens follows an iterative data-analysis lifecycle. The plan is reviewed after each major phase so that decisions can respond to data-quality findings, technical constraints, user needs, and ethical risks.
@@ -819,6 +844,8 @@ The original project plan changed as the data and application were investigated.
 | Ethics could be documented only in the README | Important limitations should also be visible to dashboard users | A dedicated Ethics & Governance page was created |
 
 These revisions demonstrate that the project plan was treated as a living document rather than a fixed sequence of tasks.
+
+
 
 
 ## Maintenance, Updates and Evaluation
@@ -919,6 +946,8 @@ Before releasing an update:
 - tag or otherwise identify the tested release.
 
 If an update introduces a serious defect, the application should return to the last verified Git revision while the issue is investigated. Data versions should be retained rather than overwritten, making analytical rollback possible.
+
+
 
 
 ## Challenges and Project Retrospective
@@ -1037,6 +1066,8 @@ The principal lessons were:
 12. A project plan should change when evidence shows that an original assumption was unsuitable.
 
 
+
+
 ## Testing
 
 ClimateLens was tested using automated validation, manual functional checks, responsive-layout testing, accessibility review, browser-compatibility testing, and external-link testing.
@@ -1063,6 +1094,8 @@ Post-deployment verification confirmed that:
 The deployed tests were completed on 2 September 2026.
 
 Detailed test cases, results, resolved defects, and known limitations are documented in [TESTING.md](TESTING.md).
+
+
 
 
 ## Deployment
@@ -1102,6 +1135,8 @@ streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
 ```
 
 
+
+
 ## Technologies
 
 ClimateLens uses Python as its only programming language. Markdown, CSS, TOML, and configuration files support documentation, presentation, and deployment.
@@ -1135,6 +1170,8 @@ Dependencies are separated according to purpose:
 | `requirements-dev.txt` | Production dependencies plus pytest |
 
 This separation prevents notebook-only modelling libraries from increasing production deployment time and size.
+
+
 
 
 ## Project Structure
@@ -1212,6 +1249,8 @@ This separation prevents notebook-only modelling libraries from increasing produ
 | `data/processed/v1/` | Stores reproducible cleaned and analytical outputs |
 | `tests/` | Contains automated validation and smoke tests |
 | `TESTING.md` | Records automated, manual, responsive, accessibility, browser, and deployed tests |
+
+
 
 
 ## Local Development
@@ -1346,3 +1385,64 @@ ClimateLens does not require application secrets, API keys, a database, or user 
 Kaggle credentials must never be committed. The repository's `.gitignore` excludes `kaggle.json`.
 
 The application must be started from the repository root so relative data, view, and asset paths resolve consistently.
+
+
+
+
+## Assessment Criteria Mapping
+
+This section identifies where evidence for each pass criterion can be found.
+
+### Learning Outcome 1
+
+> Understand ethical considerations, data privacy, and governance in data analytics practices.
+
+| Criterion | Required evidence | ClimateLens evidence |
+|---|---|---|
+| 1.1 | Examine ethical issues, privacy, and governance in the project methodology | The [Ethics, Privacy and Governance](#ethics-privacy-and-governance) section examines historical and geographical bias, missing-data decisions, fairness, uncertainty, model communication, privacy, AI transparency, governance controls, and residual risk. The dashboard provides the same evidence through the [Ethics & Governance page](views/ethics_governance.py). |
+| 1.2 | Evaluate legal and social implications and justify responsible, compliant practice | The README and dashboard discuss GDPR relevance, potential hosting logs, data minimisation, licence conditions, attribution, non-commercial use, social impacts, country-ranking risks, climate responsibility, and future privacy reassessment. Authoritative European Commission and Creative Commons references are provided. |
+
+### Learning Outcome 2
+
+> Clarify and present complex data insights to technical and non-technical audiences.
+
+| Criterion | Required evidence | ClimateLens evidence |
+|---|---|---|
+| 2.1 | Present complex insights accessibly to technical and non-technical audiences | Overview cards, plain-language definitions, chart captions, technical expanders, hypothesis conclusions, statistical outputs, model metrics, benchmark comparison, and the model card support different knowledge levels. The Hypotheses page includes separate plain-language and technical interpretations. |
+| 2.2 | Use appropriate visualisations and narratives to enhance understanding | The [Rationale for Visualisations](#rationale-for-visualisations) connects line charts, rolling means, box plots, bar charts, residual histograms, and metric cards to business requirements. The [Dashboard Design](#dashboard-design) explains navigation, information hierarchy, accessibility, feedback, responsiveness, and user control. |
+| 2.3 | Organise project documentation clearly and accessibly | The project includes a structured README, [TESTING.md](TESTING.md), four ordered analytical notebooks, versioned data documentation, code docstrings, comments, chart labels, units, hover information, captions, warnings, model documentation, and deployment instructions. |
+
+### Learning Outcome 3
+
+> Review and revise data-analytics project plans.
+
+| Criterion | Required evidence | ClimateLens evidence |
+|---|---|---|
+| 3.1 | Present a complete plan covering implementation, maintenance, updates, and evaluation | The [Project Plan](#project-plan) records thirteen lifecycle phases and completion status. [Maintenance, Updates and Evaluation](#maintenance-updates-and-evaluation) covers release checks, data versioning, evaluation questions, user feedback, maintenance frequency, and rollback. [Deployment](#deployment) documents publication and update procedures. |
+| 3.2 | Reflect on practical execution challenges and considerations | [Challenges and Project Retrospective](#challenges-and-project-retrospective) discusses data selection, licensing, missingness, incomplete periods, geographical comparisons, time leakage, model interpretation, package dependencies, responsive layout, communication trade-offs, and lessons learned. [TESTING.md](TESTING.md) records defects, resolutions, retesting, known limitations, and post-deployment results. |
+
+### Business-requirement traceability
+
+| Requirement | Implementation | Evidence |
+|---|---|---|
+| BR1 — Communicate historical global temperature patterns | Interactive global anomaly and absolute-temperature charts, rolling averages, selected-period metrics, and downloadable data | [Global Trends page](views/global_trends.py), [global analysis notebook](jupyter_notebooks/03_exploratory_analysis_and_hypothesis_validation.ipynb) |
+| BR2 — Communicate historical measurement uncertainty | Uncertainty time series, comparison periods, summary metrics, explanations, and Hypothesis 2 | [Global Trends page](views/global_trends.py), [Hypotheses page](views/hypotheses.py) |
+| BR3 — Enable country and area comparison | Country-specific anomalies, six-label comparison, equal-period rankings, controls, caveats, and downloads | [Country Explorer page](views/country_explorer.py) |
+| BR4 — Validate the project hypotheses | Welch tests, effect sizes, box plots, technical details, plain-language conclusions, and downloadable results | [Hypotheses page](views/hypotheses.py), [hypothesis notebook](jupyter_notebooks/03_exploratory_analysis_and_hypothesis_validation.ipynb) |
+| BR5 — Develop and evaluate an educational predictive model | Chronological features, held-out testing, expanding-window validation, seasonal-naive benchmark, residuals, coefficients, and model card | [Model Performance page](views/model_performance.py), [modelling notebook](jupyter_notebooks/04_predictive_modelling.ipynb) |
+| BR6 — Support responsible and accessible interpretation | Historical-data notices, definitions, accessible labels, ethical safeguards, privacy discussion, licensing, AI transparency, and risk register | [Overview page](views/overview.py), [Ethics & Governance page](views/ethics_governance.py) |
+
+### Additional project requirements
+
+| Requirement | Evidence |
+|---|---|
+| Fully functioning Python dashboard | Deployed [ClimateLens dashboard](https://climatelens-global-temperature-54cc5c60cb7b.herokuapp.com/) |
+| Business Intelligence or dashboard tool | Streamlit multipage application |
+| Python as the only programming language | All custom analytical and application logic is written in Python |
+| At least two plot types | Line charts, box plots, bar charts, and a histogram are included |
+| Hypotheses documented and validated | [Project Hypotheses](#project-hypotheses) and saved statistical results |
+| Versioned notebook outputs | Raw and processed files are stored under dedicated `v1` folders |
+| Clean and organised code | Reusable `src`, `views`, and `tests` modules with docstrings and focused responsibilities |
+| Effective Git usage | Focused commits document data, notebook, dashboard, testing, documentation, and deployment changes |
+| Responsive and accessible design | Dashboard design evidence and responsive/accessibility results in [TESTING.md](TESTING.md) |
+| Complete lifecycle documentation | README sections cover purpose, data, methodology, design, modelling, ethics, planning, reflection, testing, deployment, and maintenance |
